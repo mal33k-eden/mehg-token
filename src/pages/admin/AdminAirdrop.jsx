@@ -10,7 +10,7 @@ function AdminAirdrop() {
     const {airdropStatus,switchAirdropStatus,returnAirDropFunds,approveAirDrop} = useContext(AdminContext)
     const vestingMonthRef = useRef(null)
     useEffect(()=>{
-        airdropStatus().then((value)=>{
+        airdropStatus().then((value)=>{ 
             setAdStatus(value)
         })
     },[])
@@ -77,7 +77,7 @@ function AdminAirdrop() {
                     }
                     <div className="card-actions justify-end">
                     {(adStatus)?
-                        <button className="btn btn-primary">Un-Pause</button>
+                        <button className="btn btn-primary" onClick={()=>changeStatus(adStatus)}>Un-Pause</button>
                     :   <button className="btn btn-warning" onClick={()=>changeStatus(adStatus)}>Pause</button>}
 
                     </div>

@@ -4,11 +4,13 @@ import AdminContext from '../../contexts/admin'
 
 function AdminSales() {
     const releaseVestedForm = useRef(null)
+    const tokenHolderForm = useRef(null)
+    const vestingPeriodForm = useRef(null)
     const setVestingPeriodsForm = useRef(null)
     const [saleStatus,setSaleStatus] = useState()
     const [result, setResult]= useState('null')
     const [resultMessage, setResultMessage]= useState('')
-    const {releaseVested,setVestingPeriods,privateSaleStatus,switchPrivateSaleStatus,returnUnsoldFunds,showVestingPeriod} = useContext(AdminContext)
+    const {releaseVested,setVestingPeriods,privateSaleStatus,switchPrivateSaleStatus,returnUnsoldFunds,showVestingPeriod,getTokenHolder} = useContext(AdminContext)
 
     useEffect(()=>{
         privateSaleStatus().then((value)=>{
@@ -54,13 +56,38 @@ function AdminSales() {
         }
     }
     const getVestingDetails= async ()=>{
-        var results = await showVestingPeriod(0)
-        // setResult('showVestingPeriods')
-        // if(results){
-        // setResultMessage('funds moved successfully')}else{
-        //     setResultMessage('unable to move funds. try again')
-        // }
-        console.log(results)
+        const form = vestingPeriodForm.current  
+        const input = form['input'].value
+        console.log(input)
+        var results = await showVestingPeriod(input)
+        
+        if(!results){
+            
+            setResultMessage('Unable to execute function')}else{
+            setResult('showVestingPeriods')
+        let re_amount = results['releaseAmount'];
+        let is_release = results['released']
+        let created = results['vestingCreated']
+        let end = results['vestingEnd']
+            setResultMessage(`Released Amount: ${re_amount} | Is Released: ${is_release} | Created: ${created} | End: ${end}`)
+        } 
+    }
+    const showTokenHolders= async ()=>{
+        const form = tokenHolderForm.current 
+        const address = form['address'].value
+        const input = form['input'].value
+        var results = await getTokenHolder(address,input)
+        
+        if(!results){
+            
+            setResultMessage('Unable to execute function')}else{
+            setResult('showVestingPeriods')
+        let re_amount = results['releaseAmount'];
+        let is_release = results['released']
+        let created = results['vestingCreated']
+        let end = results['vestingEnd']
+            setResultMessage(`Released Amount: ${re_amount} | Is Released: ${is_release} | Created: ${created} | End: ${end}`)
+        } 
     }
     
     
@@ -129,7 +156,7 @@ function AdminSales() {
                     }
                     <div className="card-actions justify-end">
                     {(saleStatus)?
-                        <button className="btn btn-primary">Un-Pause</button>
+                        <button className="btn btn-primary" onClick={()=>changeStatus(saleStatus)}>Un-Pause</button>
                     :   <button className="btn btn-warning" onClick={()=>changeStatus(saleStatus)}>Pause</button>}
 
                     </div>
@@ -153,16 +180,18 @@ function AdminSales() {
             <div className="card card-compact w-96 bg-base-100 shadow-xl"> 
                 <div className="card-body">
                     <h2 className="card-title">Show Vesting Period</h2> 
-                    { (result === 'saleStatus')&&
+                    { (result === 'showVestingPeriods')&&
                         <Notice type={'info'} message={resultMessage}/>
                     }
                     <h2 className="card-title">Current Vesting Count: 0</h2> 
-                    <div className="form-control w-full max-w-xs">
-                        <label className="label">
-                            <span className="label-text">Enter Input</span> 
-                        </label>
-                        <input type="text" placeholder="input" className="input input-accent input-bordered w-full max-w-xs" />  
-                    </div>
+                    <form ref={vestingPeriodForm}>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Enter Input</span> 
+                            </label>
+                            <input name={'input'} type="text" placeholder="input" className="input input-accent input-bordered w-full max-w-xs" />  
+                        </div>
+                    </form>
                     <div className="card-actions justify-end">
                     <button className="btn btn-primary" onClick={getVestingDetails} >Show</button>
                     </div>
@@ -173,20 +202,22 @@ function AdminSales() {
             <div className="card card-compact w-96 bg-base-100 shadow-xl"> 
                 <div className="card-body">
                     <h2 className="card-title">Token Holder</h2>  
+                    <form ref={tokenHolderForm}>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
                             <span className="label-text">Enter Address</span> 
                         </label>
-                        <input type="text" placeholder="address" className="input input-accent input-bordered w-full max-w-xs" />  
+                        <input type="text" name={'address'} placeholder="address" className="input input-accent input-bordered w-full max-w-xs" />  
                     </div>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
                             <span className="label-text">Enter Input</span> 
                         </label>
-                        <input type="text" placeholder="Input" className="input input-accent input-bordered w-full max-w-xs" />  
+                        <input type="text" name={"input"} placeholder="Input" className="input input-accent input-bordered w-full max-w-xs" />  
                     </div>
+                    </form>
                     <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Show</button>
+                    <button className="btn btn-primary" onClick={showTokenHolders}>Show</button>
                     </div>
                 </div>
             </div>

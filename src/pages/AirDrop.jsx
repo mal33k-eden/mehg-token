@@ -1,7 +1,9 @@
 import React from 'react'
 import { Button, RadialProgress } from 'react-daisyui'
+import { useMoralis } from 'react-moralis'
 import Notice from '../components/Notice' 
 function AirDrop() {
+    const {isAuthenticated} = useMoralis()
   return (
     <div className='flex flex-col md:flex-row'>
         {/* details */}
@@ -36,9 +38,13 @@ function AirDrop() {
         </div>
         {/* actions */}
         <div className='md:w-1/2 md:p-10'>
-            <Notice type="info" message="Connect your wallet to claim your airdrop tokens" />
 
-            <div className='my-5 flex items-center justify-center'>  
+            {
+                (!isAuthenticated)? <Notice type="info" message="Connect your wallet to claim your airdrop tokens" />:
+           
+
+            <div>
+                <div className='my-5 flex items-center justify-center'>  
                 <div>
                     <h4 className='my-5'>Mega 1 Position</h4>
                     <RadialProgress value={70} size="5rem" thickness='0.8rem' >70%</RadialProgress>
@@ -48,6 +54,8 @@ function AirDrop() {
             <div className='flex items-center justify-center'>
                 <Button color='success'>Claim MEHG Tokens</Button>
             </div>
+            </div>
+             }
         </div>
 
     </div>

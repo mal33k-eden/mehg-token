@@ -14,6 +14,10 @@ export const AdminProvider = ({children})=>{
         abi: UTILS.privateSaleAbi,
         contractAddress: UTILS.saleAddress,
     } 
+    const tokenOptions = {
+        abi: UTILS.tokenAbi,
+        contractAddress: UTILS.tokenAddress,
+    } 
     const airdropStatus= async ()=>{
         await Moralis.enableWeb3();
         var status = await Moralis.executeFunction({
@@ -153,9 +157,28 @@ export const AdminProvider = ({children})=>{
            let res =  await Moralis.executeFunction({
                 functionName:'vestingPeriod',
                 params:{
-                    value:input
+                    "":input
                 },
                 ...saleOptions
+            }) 
+            return res
+        } catch (error) {
+            console.log(error)
+            status = false
+        }
+        
+        return status
+    }
+    const getTokenHolder= async (address,input)=>{
+        let status= false;
+        try {
+           let res =  await Moralis.executeFunction({
+                functionName:'tokenHolders',
+                params:{
+                    "":address,
+                    "":input
+                },
+                ...tokenOptions
             }) 
             return res
         } catch (error) {
@@ -168,7 +191,7 @@ export const AdminProvider = ({children})=>{
     
     return (
         <AdminContext.Provider value={{user,airdropStatus,switchAirdropStatus,returnAirDropFunds,
-        approveAirDrop,releaseVested,setVestingPeriods,privateSaleStatus,switchPrivateSaleStatus,returnUnsoldFunds,showVestingPeriod}}>
+        approveAirDrop,releaseVested,setVestingPeriods,privateSaleStatus,switchPrivateSaleStatus,returnUnsoldFunds,showVestingPeriod,getTokenHolder}}>
             {children}
         </AdminContext.Provider>
     )
