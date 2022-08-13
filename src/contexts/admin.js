@@ -60,9 +60,9 @@ export const AdminProvider = ({children})=>{
         let status= false;
         try {
             await Moralis.executeFunction({
-                functionName:'returnAirdropBalToken',
+                functionName:'approveAirdrop',
                 params:{
-                    _vestingMonthRef:month
+                    _vestingMonth:month
                 },
                 ...airdropOptions
             }) 
