@@ -38,8 +38,8 @@ function AdminAirdrop() {
             var results = await approveAirDrop(month)
             setResult('approve')
             if(results){
-            setResultMessage('airdrop approved successfully')}else{
-                setResultMessage('unable to approve airdrop. try again')
+            setResultMessage('Vesting month set successfully')}else{
+                setResultMessage('unable to set vesting month. try again')
             }
         }
     }
