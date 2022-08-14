@@ -32,6 +32,7 @@ function AdminSales() {
         const schedule = form['unlockSchedule'].value
         const month = form['vestingMonths'].value
         const amount = form['releaseAmount'].value 
+        console.log(100)
         let res = await setVestingPeriods(schedule,month,amount);
         setResult('setVestingPeriod')
         if(res){

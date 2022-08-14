@@ -96,7 +96,7 @@ export const AdminProvider = ({children})=>{
         let status= false;
         try {
             await Moralis.executeFunction({
-                functionName:'setVestingToken',
+                functionName:'setVestingPeriod',
                 params:{
                     _unlockSchedule:schedule,
                     _releaseAmount:amount,
