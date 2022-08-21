@@ -1,8 +1,57 @@
 import React from 'react'
+import { useState } from 'react'
+import { useRef } from 'react'
+import { useEffect } from 'react'
+import { useContext } from 'react'
 import { Badge, Button, RadialProgress } from 'react-daisyui'
+import { MoralisContext } from 'react-moralis'
 import Notice from '../components/Notice' 
+import SaleContext from '../contexts/sales'
 
 function PrivateSaleA() {
+  const {approveAllowance,checkAllowance} = useContext(SaleContext)
+  const {isAuthenticated} = useContext(MoralisContext)
+  const [investment, setInvestment] = useState(0)
+  const [allowance, setAllowance] = useState(0)
+  const [tokenValue, setTokenValue] = useState(0)
+  const [isAmountValid, setIsAmountValid] = useState(false)
+  const minInv = 10
+  const maxInv = 1500
+  useEffect(()=>{
+    checkAllowance().then((value)=>{
+      setAllowance(value)
+      if (allowance < minInv || allowance > maxInv) {
+        setIsAmountValid(true)
+      }
+    })
+    
+  },[allowance, isAmountValid])
+  const  makeInvestment= async ()=>{
+    // let amount = investment.current.value
+    // console.log(investment)
+    var i = await checkAllowance()
+    console.log(i)
+    
+  }
+  const approveInvestment = async ()=>{
+    var res = await approveAllowance(investment)
+    console.log(res)
+  }
+
+  const handlePriceChange = (event)=>{
+    var val = event.target.value
+    setInvestment(val)
+    var tv = (val / 0.06).toFixed(1)
+    setTokenValue(tv)
+    if (allowance < minInv || allowance > maxInv) {
+      if(val < minInv || val >maxInv ){
+        setIsAmountValid(false)
+      }else{
+        setIsAmountValid(true)
+      } 
+    }
+  }
+  
   return (
     <div className='flex flex-col md:flex-row '>
         {/* details */}
@@ -31,21 +80,30 @@ function PrivateSaleA() {
         {/* actions */}
         <div className='md:w-1/2 md:p-10'>
             <Notice  type="warning" message="All purchases will be made using BUSD BEP 20"/>
-            <Notice type="info" message="Connect your wallet to purchase MEHG" />
+            {
+              !isAuthenticated ?  <Notice type="info" message="Connect your wallet to purchase MEHG" />: ""
+            }
+           
 
             <div className='my-5 flex items-center justify-center'>  
               <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Enter amount in BUSD you will like to buy</span> 
               </label>
-                <input type="text" placeholder="e.g 200" className="input input-accent input-bordered w-full max-w-xs" /> 
+                <input  name='investment' onChange={handlePriceChange} type="text" placeholder="e.g 200" className="input input-accent input-bordered w-full max-w-xs" /> 
                 <label className="label">
                   <span className="label-text-alt"></span>
-                  <span className="label-text-alt">= 1000 MEHG</span>  </label>
+                  <span className="label-text-alt">= {tokenValue} MEHG</span>  </label>
               </div>
             </div>
+            
             <div className='flex items-center justify-center'>
-                <Button color='success'>Buy MEHG</Button>
+                {
+                  (allowance > 0) ? 
+                  <Button color='success' onClick={makeInvestment}>Buy MEHG</Button> :
+                  <Button className="btn btn-primary" onClick={approveInvestment} disabled={!isAmountValid}>Approve Allowance</Button>
+                  
+                }
             </div>
         </div>
 

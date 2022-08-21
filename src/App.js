@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/layouts/Footer';
 import NavBar from './components/layouts/NavBar';
 import AdminContext, { AdminProvider } from './contexts/admin';
+import { SaleProvider } from './contexts/sales';
 import { UserProvider } from './contexts/user';
 import AdminAirdrop from './pages/admin/AdminAirdrop';
 import AdminSales from './pages/admin/AdminSales';
@@ -12,6 +13,7 @@ function App() {
   return (
     <UserProvider>
       <AdminProvider>
+        <SaleProvider>
         <Router>
           <div className="flex flex-col justify-between h-screen">
             <NavBar title="MEHG"/>
@@ -31,6 +33,7 @@ function App() {
           <Footer/>
           </div>
         </Router>
+        </SaleProvider>
       </AdminProvider>
     </UserProvider>
   );
