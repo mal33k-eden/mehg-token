@@ -39,7 +39,7 @@ export const SaleProvider = ({children})=>{
                 
                 params:{
                     'payableAmount':amount,
-                    "_amount":(amount/0.06).toFixed(1)
+                    "_amount":Moralis.Units.ETH((amount/0.06).toFixed(1))
                 }
             })
             
