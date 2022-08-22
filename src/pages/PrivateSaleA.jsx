@@ -9,7 +9,7 @@ import Notice from '../components/Notice'
 import SaleContext from '../contexts/sales'
 
 function PrivateSaleA() {
-  const {approveAllowance,checkAllowance} = useContext(SaleContext)
+  const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext)
   const {isAuthenticated} = useContext(MoralisContext)
   const [investment, setInvestment] = useState(0)
   const [allowance, setAllowance] = useState(0)
@@ -27,15 +27,18 @@ function PrivateSaleA() {
     
   },[allowance, isAmountValid])
   const  makeInvestment= async ()=>{
-    // let amount = investment.current.value
-    // console.log(investment)
-    var i = await checkAllowance()
-    console.log(i)
+     
+   await  buyMEHG(allowance)
     
   }
   const approveInvestment = async ()=>{
-    var res = await approveAllowance(investment)
-    console.log(res)
+     await approveAllowance(investment)
+     checkAllowance().then((value)=>{
+      setAllowance(value)
+      if (allowance < minInv || allowance > maxInv) {
+        setIsAmountValid(true)
+      }
+    })
   }
 
   const handlePriceChange = (event)=>{
@@ -80,27 +83,33 @@ function PrivateSaleA() {
         {/* actions */}
         <div className='md:w-1/2 md:p-10'>
             <Notice  type="warning" message="All purchases will be made using BUSD BEP 20"/>
+            <Notice type={"error"} message="Use a new wallet address, don’t use any wallet used in MEHG Airdrop, Seed Sales or Previous Privates Sales"/>
             {
               !isAuthenticated ?  <Notice type="info" message="Connect your wallet to purchase MEHG" />: ""
             }
            
 
             <div className='my-5 flex items-center justify-center'>  
+            { 
+            (allowance > minInv) ?
               <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Enter amount in BUSD you will like to buy</span> 
-              </label>
-                <input  name='investment' onChange={handlePriceChange} type="text" placeholder="e.g 200" className="input input-accent input-bordered w-full max-w-xs" /> 
                 <label className="label">
-                  <span className="label-text-alt"></span>
-                  <span className="label-text-alt">= {tokenValue} MEHG</span>  </label>
-              </div>
+                  <span className="label-text">Enter amount in BUSD you will like to buy</span> 
+                </label>
+                  <input  name='investment' onChange={handlePriceChange} type="text" placeholder="e.g 200" className="input input-accent input-bordered w-full max-w-xs" /> 
+                  <label className="label">
+                    <span className="label-text-alt"></span>
+                    <span className="label-text-alt">= {tokenValue} MEHG</span>  </label>
+              </div> :
+              <h4 className=' text-3xl font-black'> {(allowance / 0.06).toFixed(1)} MEHG</h4>
+            }
+              
             </div>
             
             <div className='flex items-center justify-center'>
                 {
-                  (allowance > 0) ? 
-                  <Button color='success' onClick={makeInvestment}>Buy MEHG</Button> :
+                  (allowance >= 10) ? 
+                  <Button color='success' onClick={makeInvestment}>Buy MEHG For ${allowance}</Button> :
                   <Button className="btn btn-primary" onClick={approveInvestment} disabled={!isAmountValid}>Approve Allowance</Button>
                   
                 }

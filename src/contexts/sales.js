@@ -10,6 +10,10 @@ export const SaleProvider = ({children})=>{
         contractAddress: UTILS.busdAddress, 
         abi: UTILS.busdAbi,
     }
+    const saleOptions = {
+        contractAddress: UTILS.saleAddress, 
+        abi: UTILS.privateSaleAbi,
+    }
     const approveAllowance = async (amount)=>{
         try {
             var res = await Moralis.executeFunction({
@@ -21,11 +25,27 @@ export const SaleProvider = ({children})=>{
                     "_spender":UTILS.saleAddress
                 }
             })
-            console.log(res)
+            
         } catch (error) {
             console.log(error)
         }
-        
+        return res
+    }
+    const buyMEHG = async (amount)=>{
+        try {
+            var res = await Moralis.executeFunction({
+                ...saleOptions,
+                functionName:'approve',
+                
+                params:{
+                    '_value':Moralis.Units.ETH(amount),
+                    "_spender":UTILS.saleAddress
+                }
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
         return res
     }
     
@@ -51,7 +71,7 @@ export const SaleProvider = ({children})=>{
     }
 
     return (
-        <SaleContext.Provider value={{approveAllowance,checkAllowance}}>
+        <SaleContext.Provider value={{approveAllowance,checkAllowance,buyMEHG}}>
             {children}
         </SaleContext.Provider>
     )
