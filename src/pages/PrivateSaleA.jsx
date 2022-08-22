@@ -12,7 +12,8 @@ function PrivateSaleA() {
   const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext)
   const {isAuthenticated} = useContext(MoralisContext)
   const [investment, setInvestment] = useState(0)
-  const [trx, setTrx] = useState(false)
+  const [trx, setTrx] = useState("")
+  const [notify, setNotify] = useState(false)
   const [allowance, setAllowance] = useState(0)
   const [tokenValue, setTokenValue] = useState(0)
   const [isAmountValid, setIsAmountValid] = useState(false)
@@ -29,9 +30,14 @@ function PrivateSaleA() {
     
   },[allowance, isAmountValid])
   const  makeInvestment= async ()=>{
-     
+    'Import MEHG wallet, Click here to copy contract address '
    var res = await  buyMEHG(allowance)
-    setTrx(true)
+   if (res.success){
+    setTrx("Buy order placed successful. Add MEHG contract address to see tokens")
+   }else{
+    setTrx(res.message)
+   }
+   setNotify(true)
   }
   const approveInvestment = async ()=>{
      await approveAllowance(investment)
@@ -89,8 +95,8 @@ function PrivateSaleA() {
             {
               !isAuthenticated ?  <Notice type="info" message="Connect your wallet to purchase MEHG" />: ""
             }
-             {
-              trx ?  <Notice type="success" message="Buy order placed successful" />: ""
+            {
+              notify ?  <Notice type="success" message={trx} />: ""
             }
            
 

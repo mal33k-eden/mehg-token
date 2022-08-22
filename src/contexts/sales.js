@@ -32,6 +32,10 @@ export const SaleProvider = ({children})=>{
         return res
     }
     const buyMEHG = async (amount)=>{
+        var response = {
+            success: false,
+            message : null
+        }
         try {
             var res = await Moralis.executeFunction({
                 ...saleOptions,
@@ -39,14 +43,17 @@ export const SaleProvider = ({children})=>{
                 
                 params:{
                     'payableAmount':amount,
-                    "_amount":Moralis.Units.ETH((amount/0.06).toFixed(1))
+                    "_amount":(amount/0.06).toFixed(0)
                 }
             })
+            response.success= true
             
         } catch (error) {
-            console.log(error)
+            response.success = false
+            response.message=error['data'].message
+            return response
         }
-        return res
+        return response
     }
     
     const checkAllowance = async ()=>{
