@@ -14,6 +14,7 @@ function AirDrop() {
     const [buttonAction, setButtonAction] = useState('CLAIM MEHG TOKEN')
 
     useEffect(()=>{ 
+        console.log(connectedUser)
         if (isAuthenticated) {
             
             setConnectedUser(user.get('ethAddress'))
@@ -43,7 +44,7 @@ function AirDrop() {
         }
         
         
-    },[connectedUser])
+    },[connectedUser,isAuthenticated,invites])
 
     const claimToken = async ()=>{
         
