@@ -18,6 +18,7 @@ function PrivateSaleA() {
   const minInv = 10
   const maxInv = 1500
   useEffect(()=>{
+    console.log(allowance)
     checkAllowance().then((value)=>{
       setAllowance(value)
       if (allowance < minInv || allowance > maxInv) {
@@ -91,7 +92,8 @@ function PrivateSaleA() {
 
             <div className='my-5 flex items-center justify-center'>  
             { 
-            (allowance > minInv) ?
+            
+            (allowance < minInv) ?
               <div className="form-control w-full max-w-xs">
                 <label className="label">
                   <span className="label-text">Enter amount in BUSD you will like to buy</span> 
