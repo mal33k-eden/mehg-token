@@ -35,11 +35,11 @@ export const SaleProvider = ({children})=>{
         try {
             var res = await Moralis.executeFunction({
                 ...saleOptions,
-                functionName:'approve',
+                functionName:'BuymehgToken',
                 
                 params:{
-                    '_value':Moralis.Units.ETH(amount),
-                    "_spender":UTILS.saleAddress
+                    'payableAmount':amount,
+                    "_amount":(amount/0.06).toFixed(1)
                 }
             })
             

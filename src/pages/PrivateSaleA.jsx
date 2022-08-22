@@ -12,6 +12,7 @@ function PrivateSaleA() {
   const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext)
   const {isAuthenticated} = useContext(MoralisContext)
   const [investment, setInvestment] = useState(0)
+  const [trx, setTrx] = useState(false)
   const [allowance, setAllowance] = useState(0)
   const [tokenValue, setTokenValue] = useState(0)
   const [isAmountValid, setIsAmountValid] = useState(false)
@@ -29,8 +30,8 @@ function PrivateSaleA() {
   },[allowance, isAmountValid])
   const  makeInvestment= async ()=>{
      
-   await  buyMEHG(allowance)
-    
+   var res = await  buyMEHG(allowance)
+    setTrx(true)
   }
   const approveInvestment = async ()=>{
      await approveAllowance(investment)
@@ -87,6 +88,9 @@ function PrivateSaleA() {
             <Notice type={"error"} message="Use a new wallet address, don’t use any wallet used in MEHG Airdrop, Seed Sales or Previous Privates Sales"/>
             {
               !isAuthenticated ?  <Notice type="info" message="Connect your wallet to purchase MEHG" />: ""
+            }
+             {
+              trx ?  <Notice type="success" message="Buy order placed successful" />: ""
             }
            
 
