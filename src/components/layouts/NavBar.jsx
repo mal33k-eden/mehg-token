@@ -2,15 +2,18 @@ import React,{useState,useContext} from 'react'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'   
 import UserContext from '../../contexts/user'
+import logo from "../../assets/logo.png"
 function NavBar({title}) {  
   const {isAuthenticated,connect,disconnect}= useContext(UserContext)
   return (
  
-  <div className="navbar bg-base-100 shadow-lg">
+  <div className="navbar shadow-lg bg-gradient-to-tr from-primary to-secondary">
     <div className="container mx-auto">
     <div className="navbar-start">
-       
-      <Link to={'/'} className="btn btn-ghost normal-case text-xl">{title}</Link>
+   
+      <Link to={'/'} className="btn btn-ghost normal-case text-xl w-1/3">
+         <img src={logo} alt="MEHG TOKEN LOGO" className=' float-left' />
+      </Link>
     </div>
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal p-0">

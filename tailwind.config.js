@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",'node_modules/daisyui/dist/**/*.js'
   ],
   theme: {
+  
     extend: {
+      fontFamily:{
+        bankGothic: ["BankGothic","sans-serif"],
+      },
       fontSize: {
         'tiny': '.875rem',
         'base': '1rem',
@@ -27,5 +31,23 @@ module.exports = {
       },
     },
   },
+  daisyui: {
+    themes: [
+       
+      {
+        "dark": {
+          ...require("daisyui/src/colors/themes")["[data-theme=dark]"],
+          primary: "#D09821",
+          secondary: "#453643",
+          fontFamily:{
+            bankGothic: ["BankGothic","sans-serif"],
+          }, 
+        },
+      }
+      
+    ],
+  },
   plugins: [require('daisyui')],
+
 }
+

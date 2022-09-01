@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "BankGothic";
+    src: url("./assets/font/mehg-font.ttf");
+    font-weight: Heavy;
+}
+@font-face {
+    font-family: "BankGothic";
+    src: url("./assets/font/mehg-font.ttf");
+    font-weight: Roman;
+}
+@font-face {
+    font-family: "BankGothic";
+    src: url("./assets/font/mehg-font.ttf");
+    font-weight: Black;
+}
