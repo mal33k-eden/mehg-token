@@ -13,7 +13,7 @@ function AirdropStats({connectedAddress}) {
            }
             
         })
-    },[getAirdropDetails,connectedAddress,invites])
+    },[connectedAddress,invites,airdropDetails])
   return (
     <div className='flex flex-col gap-5 mb-10 '>
         <div className="card card-compact  bg-base-100 shadow-xl">

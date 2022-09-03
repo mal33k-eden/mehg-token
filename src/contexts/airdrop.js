@@ -14,7 +14,7 @@ export const AirdropProvider = ({children})=>{
     useEffect(()=>{
         if (isAuthenticated) {
             getReferredAddresses().then(()=>{
-                console.log('kl')
+                //console.log('kl')
             })
         } 
     },[isAuthenticated,invites,bigTotal,data])
