@@ -98,8 +98,8 @@ export const AirdropProvider = ({children})=>{
             }
             if(data != undefined){
                 setInvites(data.length)
-                if (data.length <=10) {
-                    setBigTotal(10)
+                if (data.length <=2) {
+                    setBigTotal(2)
                 }
                 if (data.length > 10 && data.length <=50) {
                     setBigTotal(50)

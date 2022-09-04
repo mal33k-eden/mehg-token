@@ -1,8 +1,11 @@
 import React, { useState,useContext,useEffect } from 'react' 
 import PropTypes from "prop-types"
 import AirdropContext from '../../contexts/airdrop' 
+import { useMoralis } from 'react-moralis'
+import { toast } from 'react-toastify'
 
 function AirdropStats({connectedAddress}) {
+    const {user} = useMoralis()
     const {getAirdropDetails, invites} = useContext(AirdropContext)
     const [airdropDetails, setAirdropDetails] = useState({address:null, invitedBy:null})
      
@@ -14,6 +17,12 @@ function AirdropStats({connectedAddress}) {
             
         })
     },[connectedAddress,invites,airdropDetails])
+
+    const copyReferralLink = ()=>{
+        var copyText = document.getElementById("referralLink");
+        navigator.clipboard.writeText(copyText.innerHTML);
+        toast.info('Referral link copied to clipboard.') 
+    }
   return (
     <div className='flex flex-col gap-5 mb-10 '>
         <div className="card card-compact  bg-base-100 shadow-xl">
@@ -48,9 +57,12 @@ function AirdropStats({connectedAddress}) {
         <div className="card card-compact  bg-base-100 shadow-xl">
             <div className="card-body stat">
                 <h2 className="stat-title text-primary">Invite Link</h2>
-                <p>Hello, i am inviting your to the MEHG token airdrop campaign. Follow this link to redeem free MEHG TOKENS</p>
+                <p id='referralLink'>Hello, i am inviting your to the MEHG token airdrop campaign. 
+                    Follow this link to redeem free MEHG TOKENS : 
+                    https://mehg.netlify.app/airdrop/referral/{user.get('ethAddress')}</p>
                 <div className="card-actions justify-end">
-                <div className="badge badge-accent cursor-pointer">Click To Copy Referral Link</div>
+                <div className="badge badge-accent cursor-pointer"
+                onClick={copyReferralLink}>Click To Copy Referral Link</div>
                 </div>
             </div>
         </div>
