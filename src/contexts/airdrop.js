@@ -14,10 +14,10 @@ export const AirdropProvider = ({children})=>{
     useEffect(()=>{
         if (isAuthenticated) {
             getReferredAddresses().then(()=>{
-                //console.log('kl')
+                console.log('kl')
             })
         } 
-    },[isAuthenticated,invites,bigTotal,data])
+    },[])
     const addressExist = async (address) => {
         console.log(address)
           const params = {
@@ -70,10 +70,10 @@ export const AirdropProvider = ({children})=>{
                     status:true,
                     
                 }
-            } catch (error) {
+            } catch (err) {
                 return {
                     status:false,
-                    msg:error.data.message
+                    msg:error
                 } 
             }
          } 
