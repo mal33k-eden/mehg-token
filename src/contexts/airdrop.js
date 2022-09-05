@@ -8,8 +8,7 @@ const AirdropContext = createContext()
 
 export const AirdropProvider = ({children})=>{
     const {isAuthenticated,Moralis,user,enableWeb3} = useMoralis()
-    const { data,runContractFunction, error } =useWeb3Contract();  
-    const [refData, setRefData] = useState([])
+    const { data,runContractFunction, error } =useWeb3Contract();   
     
     const addressExist = async (address) => {
         console.log(address)
@@ -89,9 +88,7 @@ export const AirdropProvider = ({children})=>{
             } catch (err) { 
             } 
             if(data != undefined){
-                setRefData(data)
                 return data.length
-                
             }
            
         }
