@@ -1,9 +1,9 @@
 import sanityClient from "@sanity/client";
 
 const client =  sanityClient({
-    projectId:"p0q0n2s1",
-    dataset:"production",
+    projectId:"55j3s382",
+    dataset:"referrallink",
     // useCdn: true,
-    token:'sk5WxWZtzNnsjKuT3stjmHsO6lnE1QNQ6p90c4zoNO9zJW1Q6XJBpgKmfR6jVCvPHsBg8NxDVCSHwKQ8BXnXvpwZbJomR58x59g7LhtTbLtBBV56Df5bQdCDQpe4LDKwCqXSzKgAwp12gI9BddwBaGc4rcdEVr9RlxeXBi4NYmfoksPwu8ho'
+    token:'sk5kBhCiM4M3GKCUUy1REoBz2aE9LtW17IGMt9EG8AP5uiSvy4ePSMOU0JbJTmoSmDpZVJtxygiDsoq1425yF81ZCaWMSqFj90Eodcdx8Sb1Fm88xZLxQATncAZBO66n5IZk0MhBUZxxrbR1Hi8wgQntQAphHm9y2m9SIcIHto9JlO6NCLFM'
 })
 export default client

@@ -68,7 +68,6 @@ export const AirdropProvider = ({children})=>{
                 })
                 return {
                     status:true,
-                    
                 }
             } catch (err) {
                 return {

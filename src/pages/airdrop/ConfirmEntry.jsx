@@ -11,16 +11,13 @@ function ConfirmEntry({referredBy,connectedUser,checkRegistered}) {
     const {generateLink,whitelistReferredAddress} = useContext(AirdropContext)
     const [isClicked, setIsClicked] = useState(false)
     const registerForAirdrop = async ()=>{
-        setIsClicked(true)
-        if(referredBy != 'null'){
-            //send registeration to airdrop contract 
-            let res = await whitelistReferredAddress(referredBy)
-            console.log(res)
-            if(!res.status) {
-                toast.error(res.msg + ' Kindly speak with admin.')
-                return false
-            }
+        setIsClicked(true) 
+        let res = await whitelistReferredAddress(referredBy) 
+        if(!res.status) {
+            toast.error(res.msg + ' Kindly speak with admin.')
+            return false
         }
+        
         const  createLink = await generateLink(connectedUser,referredBy)
         
         if(createLink){

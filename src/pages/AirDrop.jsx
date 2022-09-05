@@ -11,7 +11,7 @@ import AirdropStats from './airdrop/AirdropStats'
 import ConfirmEntry from './airdrop/ConfirmEntry'
 function AirDrop() {
     const {addressExist,whitelistReferredAddress} = useContext(AirdropContext)
-    const {referredBy='null'} = useParams() 
+    const {referredBy='0x0000000000000000000000000000000000000000'} = useParams() 
     const {isAuthenticated,Moralis,user} = useMoralis() 
     const [connectedUser, setConnectedUser] = useState(null)
     const [isRegistered, setIsRegistered] = useState(false)
