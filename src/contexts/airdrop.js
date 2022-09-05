@@ -16,7 +16,7 @@ export const AirdropProvider = ({children})=>{
             getReferredAddresses().then(()=>{
             })
         } 
-    },[])
+    },[invites,isAuthenticated,data])
     const addressExist = async (address) => {
         console.log(address)
           const params = {
@@ -93,7 +93,7 @@ export const AirdropProvider = ({children})=>{
             } catch (err) {
                 console.log(err)
             }
-            console.log(error)
+            console.log(data)
             if(data != undefined){
                 setInvites(data.length)
                 if (data.length <=2) {
