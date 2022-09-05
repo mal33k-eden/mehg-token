@@ -1,20 +1,19 @@
-import React, {  useContext, useEffect, useState } from 'react'
-import { Button, RadialProgress } from 'react-daisyui'
-import { useMoralis, useWeb3Contract } from 'react-moralis'
-import { useLocation, useParams } from 'react-router-dom'
+import React, {  useContext, useEffect, useState } from 'react' 
+import { useMoralis } from 'react-moralis'
+import {  useParams } from 'react-router-dom'
 import Notice from '../components/Notice'  
-import AirdropContext from '../contexts/airdrop'
-import client from '../sanity'
-import UTILS from '../utils'
+import AirdropContext from '../contexts/airdrop' 
 import AirdropClaim from './airdrop/AirdropClaim'
 import AirdropStats from './airdrop/AirdropStats'
 import ConfirmEntry from './airdrop/ConfirmEntry'
 function AirDrop() {
-    const {addressExist,whitelistReferredAddress} = useContext(AirdropContext)
+    const {addressExist,getReferredAddresses} = useContext(AirdropContext)
     const {referredBy='0x0000000000000000000000000000000000000000'} = useParams() 
     const {isAuthenticated,Moralis,user} = useMoralis() 
     const [connectedUser, setConnectedUser] = useState(null)
     const [isRegistered, setIsRegistered] = useState(false)
+    const [invites, setInvites]= useState(0)
+    const [bigTotal, setBigTotal]= useState(2)
     //TODO- check if user is authenticated
     //TODO- check to see if user has created a referral link
     //TODO- get number of referrals from blockchain
@@ -24,10 +23,27 @@ function AirDrop() {
         if (Moralis.isWeb3Enabled && isAuthenticated) {
             setConnectedUser(user.get('ethAddress'))
             addressExist(connectedUser).then((value)=>{ 
+                console.log(value)
                 setIsRegistered(value)
-            })
+            }) 
         } 
-    },[isAuthenticated,user,connectedUser,isRegistered])
+        if (isAuthenticated) {
+            getReferredAddresses().then((value)=>{
+                console.log(value)
+                setInvites(value)
+                if (invites <=2) {
+                    setBigTotal(2)
+                }
+                if (invites > 10 && invites <=50) {
+                    setBigTotal(50)
+                }
+                if (invites > 50) {
+                    setBigTotal(100)
+                }  
+             })
+        }
+        
+    },[isAuthenticated,user,isRegistered])
 
     
      const checkRegistered = ()=>{
@@ -78,8 +94,8 @@ function AirDrop() {
             {
                 (isRegistered)?
                 <div className='grid grid-cols-1 md:grid-cols-2 justify-items-center'>
-                    <AirdropStats connectedAddress={connectedUser}/>
-                    <AirdropClaim/>
+                    <AirdropStats connectedAddress={connectedUser} invites={invites}/>
+                    <AirdropClaim invites={invites} bigTotal={bigTotal}/>
                 </div>
                
                 :<ConfirmEntry referredBy={referredBy} connectedUser={connectedUser} checkRegistered={checkRegistered}/>

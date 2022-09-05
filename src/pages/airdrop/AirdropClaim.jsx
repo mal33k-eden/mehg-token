@@ -6,22 +6,15 @@ import AirdropContext from '../../contexts/airdrop'
 import PropTypes from "prop-types"
 import UTILS from '../../utils'
 
-function AirdropClaim({connectedUser}) {
+function AirdropClaim({connectedUser, invites, bigTotal}) {
+    console.log(bigTotal)
     const {isAuthenticated, user,Moralis} = useMoralis()
     const { runContractFunction, error } =useWeb3Contract(); 
     const [errMsg, setErrMsg] = useState('')
-    const [buttonAction, setButtonAction] = useState('CLAIM MEHG TOKEN') 
+    const [buttonAction, setButtonAction] = useState('CLAIM 250 MEHG TOKENS') 
     const {getReferredAddresses} = useContext(AirdropContext)
-    const [invites, setInvites]= useState(0)
-    const [bigTotal, setBigTotal]= useState(0)
-    useEffect(()=>{
-        if (isAuthenticated) {
-            getReferredAddresses().then((value)=>{
-                setInvites(value[0])
-                setBigTotal(value[1])
-            })
-        } 
-    },[isAuthenticated,invites])
+    
+   
 
     const claimToken = async ()=>{
         
@@ -60,7 +53,7 @@ function AirdropClaim({connectedUser}) {
                     {(invites >10 && invites <=50) && <h4 className='my-5 text-primary'>Position: Mega 2 </h4>}
                     {(invites >50 ) && <h4 className='my-5 text-primary'>Position: Mega 3</h4>}
                 </div>
-                <RadialProgress value={((invites/bigTotal)*100).toFixed(0)} size="10rem" thickness='0.4rem' >{((invites/bigTotal)*100).toFixed(0)}%</RadialProgress>
+                <RadialProgress color='warning' value={((invites/bigTotal)*100).toFixed(0)} size="10rem" thickness='0.4rem' >{((invites/bigTotal)*100).toFixed(0)}%</RadialProgress>
                 <h4 className='my-5'>{invites} Referral(s)</h4>
             </div>
             {
