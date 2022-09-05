@@ -10,13 +10,8 @@ export const AirdropProvider = ({children})=>{
     const {isAuthenticated,Moralis,user,enableWeb3} = useMoralis()
     const { data,runContractFunction, error } =useWeb3Contract(); 
     const [bigTotal, setBigTotal] = useState(10)
-    const [invites, setInvites] = useState(0)
-    useEffect(()=>{
-        if (isAuthenticated) {
-            getReferredAddresses().then(()=>{
-            })
-        } 
-    },[invites,isAuthenticated,data])
+    const [refData, setRefData] = useState([])
+    
     const addressExist = async (address) => {
         console.log(address)
           const params = {
@@ -90,12 +85,10 @@ export const AirdropProvider = ({children})=>{
             try {
                 await runContractFunction({params: options})
                 
-            } catch (err) {
-                console.log(err)
-            }
-            console.log(data)
+            } catch (err) { 
+            } 
             if(data != undefined){
-                setInvites(data.length)
+                setRefData(data)
                 if (data.length <=2) {
                     setBigTotal(2)
                 }
@@ -106,12 +99,13 @@ export const AirdropProvider = ({children})=>{
                     setBigTotal(100)
                 }
             }
+           
         }
-      
+        return [refData.length, bigTotal]
     }
     return (
         <AirdropContext.Provider value={{generateLink,addressExist,getAirdropDetails,
-            whitelistReferredAddress,getReferredAddresses,bigTotal,invites
+            whitelistReferredAddress,getReferredAddresses
 
         }}>{children}</AirdropContext.Provider>
     )

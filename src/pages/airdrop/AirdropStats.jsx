@@ -5,10 +5,10 @@ import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
 
 function AirdropStats({connectedAddress}) {
-    const {user} = useMoralis()
-    const {getAirdropDetails, invites} = useContext(AirdropContext)
+    const {user,isAuthenticated} = useMoralis()
+    const {getAirdropDetails, getReferredAddresses} = useContext(AirdropContext)
     const [airdropDetails, setAirdropDetails] = useState({address:null, invitedBy:null})
-     
+     const [invites, setInvites]= useState(0)
     useEffect(()=>{
         getAirdropDetails(connectedAddress).then((value)=>{
            if (value != undefined) {
@@ -16,7 +16,13 @@ function AirdropStats({connectedAddress}) {
            }
             
         })
-    },[connectedAddress,invites,airdropDetails])
+
+        if (isAuthenticated) {
+            getReferredAddresses().then((value)=>{
+                setInvites(value[0])
+            })
+        } 
+    },[connectedAddress,airdropDetails])
 
     const copyReferralLink = ()=>{
         var copyText = document.getElementById("referralLink");

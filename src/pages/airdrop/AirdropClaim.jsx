@@ -1,4 +1,4 @@
-import React,{ useContext, useState } from 'react' 
+import React,{ useContext, useState,useEffect} from 'react' 
 import { Button, RadialProgress } from 'react-daisyui'
 import { useMoralis, useWeb3Contract } from 'react-moralis'
 import Notice from '../../components/Notice'
@@ -11,7 +11,17 @@ function AirdropClaim({connectedUser}) {
     const { runContractFunction, error } =useWeb3Contract(); 
     const [errMsg, setErrMsg] = useState('')
     const [buttonAction, setButtonAction] = useState('CLAIM MEHG TOKEN') 
-    const {bigTotal,invites} = useContext(AirdropContext)
+    const {getReferredAddresses} = useContext(AirdropContext)
+    const [invites, setInvites]= useState(0)
+    const [bigTotal, setBigTotal]= useState(0)
+    useEffect(()=>{
+        if (isAuthenticated) {
+            getReferredAddresses().then((value)=>{
+                setInvites(value[0])
+                setBigTotal(value[1])
+            })
+        } 
+    },[isAuthenticated,invites])
 
     const claimToken = async ()=>{
         
@@ -57,7 +67,7 @@ function AirdropClaim({connectedUser}) {
                 (errMsg !== '') && <Notice type={'error'} message={errMsg}/>
             }
             <div className='flex items-center justify-center'>
-                <Button color='success' onClick={claimToken} disabled={(invites<10)?true:false}>{buttonAction}</Button>
+                <Button color='success' onClick={claimToken} disabled={(invites<2)?true:false}>{buttonAction}</Button>
             </div>
         </div>
     </div>
