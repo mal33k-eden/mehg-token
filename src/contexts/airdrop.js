@@ -14,7 +14,6 @@ export const AirdropProvider = ({children})=>{
     useEffect(()=>{
         if (isAuthenticated) {
             getReferredAddresses().then(()=>{
-                console.log('kl')
             })
         } 
     },[])
@@ -25,14 +24,13 @@ export const AirdropProvider = ({children})=>{
         }; 
         const query  = `*[_type == "referralLink" && lower(address) == '${address}'] {address}` 
         let records = await client.fetch(query, params);
-        console.log(records)
         if (records.length > 0 ) {
             return true
         }
         return false
       };
     const getAirdropDetails = async (address) => {
-        const params = {
+      const params = {
         address:address,
       }; 
       const query  = `*[_type == "referralLink" && lower(address) == '${address}'] {address,invitedBy}` 
@@ -92,9 +90,10 @@ export const AirdropProvider = ({children})=>{
             try {
                 await runContractFunction({params: options})
                 
-            } catch (error) {
-                console.log(error)
+            } catch (err) {
+                console.log(err)
             }
+            console.log(error)
             if(data != undefined){
                 setInvites(data.length)
                 if (data.length <=2) {
