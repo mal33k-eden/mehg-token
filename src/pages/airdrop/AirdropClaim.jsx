@@ -38,7 +38,7 @@ function AirdropClaim({connectedUser, invites, bigTotal}) {
                       
                      if (r !== undefined) {
                         var res = await r.wait(2)
-                        console.log(res)
+                        toast.success('You have claimed successfully.')
                      }
                      if (error != null) {
                         setErrMsg(error['data']['message'])

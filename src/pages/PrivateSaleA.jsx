@@ -4,13 +4,13 @@ import { useRef } from 'react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
 import { Badge, Button, RadialProgress } from 'react-daisyui'
-import { MoralisContext } from 'react-moralis'
+import { useMoralis } from 'react-moralis'
 import Notice from '../components/Notice' 
 import SaleContext from '../contexts/sales'
 
 function PrivateSaleA() {
-  const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext)
-  const {isAuthenticated} = useContext(MoralisContext)
+  const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext) 
+  const {isAuthenticated} = useMoralis()
   const [investment, setInvestment] = useState(0)
   const [trx, setTrx] = useState("")
   const [notify, setNotify] = useState(false)
@@ -20,15 +20,18 @@ function PrivateSaleA() {
   const minInv = 10
   const maxInv = 1500
   useEffect(()=>{
-    console.log(allowance)
-    checkAllowance().then((value)=>{
-      setAllowance(value)
-      if (allowance < minInv || allowance > maxInv) {
-        setIsAmountValid(true)
-      }
-    })
+   
+    if (isAuthenticated) {
+      checkAllowance().then((value)=>{
+        console.log(value)
+        setAllowance(value)
+        if (allowance < minInv || allowance > maxInv) {
+          setIsAmountValid(true)
+        }
+      })
+    }
     
-  },[allowance, isAmountValid])
+  },[allowance, isAmountValid,isAuthenticated])
   const  makeInvestment= async ()=>{
     'Import MEHG wallet, Click here to copy contract address '
    var res = await  buyMEHG(allowance)

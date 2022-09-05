@@ -4,7 +4,7 @@ import UTILS from "../utils";
 
 const SaleContext = createContext()
 export const SaleProvider = ({children})=>{
-    const {user, Moralis} = useMoralis();
+    const {user, Moralis,enableWeb3} = useMoralis();
      
     const busdOptions = {
         contractAddress: UTILS.busdAddress, 
@@ -57,22 +57,28 @@ export const SaleProvider = ({children})=>{
     }
     
     const checkAllowance = async ()=>{
-        await Moralis.enableWeb3() 
-        var amount = 0
-        try {
-            var a = await Moralis.executeFunction({
-                ...busdOptions,
-                functionName:'allowance',
-                
-                params:{
-                    '_owner':user.get('ethAddress'),
-                    "_spender":UTILS.saleAddress
-                }
-            })
-            amount = Moralis.Units.FromWei(a) 
-        } catch (error) {
-            console.log(error)
-        }
+        await enableWeb3()
+        if (Moralis.isWeb3Enabled) {
+            var amount = 0
+            try {
+                var a = await Moralis.executeFunction({
+                    ...busdOptions,
+                    functionName:'allowance',
+                    
+                    params:{
+                        '_owner':user.get('ethAddress'),
+                        "_spender":UTILS.saleAddress
+                    }
+                })
+                console.log(a)
+                amount = Moralis.Units.FromWei(a) 
+                return amount
+            } catch (error) {
+                console.log(error)
+            }
+
+        } 
+        
         
         return amount
     }
