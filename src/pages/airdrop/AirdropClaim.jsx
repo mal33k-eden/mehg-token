@@ -32,7 +32,7 @@ function AirdropClaim({connectedUser, invites, bigTotal}) {
                         abi: UTILS.tokenAbi,
                         contractAddress: UTILS.tokenAddress,
                         functionName: "transferFrom",
-                        params: {from:UTILS.tokenAddress,to:user.get('ethAddress'), amount: Moralis.Units.ETH(250)},
+                        params: {from:UTILS.airdropAddress,to:user.get('ethAddress'), amount: Moralis.Units.ETH(250)},
                      } 
                      var r = await runContractFunction({params: options})
                       
