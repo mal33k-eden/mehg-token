@@ -1,16 +1,14 @@
-import React from 'react'
-import { useState } from 'react'
-import { useRef } from 'react'
-import { useEffect } from 'react'
-import { useContext } from 'react'
-import { Badge, Button, RadialProgress } from 'react-daisyui'
+import React, { useState,useEffect,useContext} from 'react'  
+import { Badge, Button,  } from 'react-daisyui'
 import { useMoralis } from 'react-moralis'
 import Notice from '../components/Notice' 
 import SaleContext from '../contexts/sales'
+import UserContext from '../contexts/user'
 
 function PrivateSaleA() {
   const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext) 
-  const {isAuthenticated} = useMoralis()
+  const {disconnect,connect} = useContext(UserContext) 
+  const {isAuthenticated, Moralis} = useMoralis()
   const [investment, setInvestment] = useState(0)
   const [trx, setTrx] = useState("")
   const [notify, setNotify] = useState(false)
@@ -19,18 +17,17 @@ function PrivateSaleA() {
   const [isAmountValid, setIsAmountValid] = useState(false)
   const minInv = 10
   const maxInv = 1500
+   
   useEffect(()=>{
    
     if (isAuthenticated) {
-      checkAllowance().then((value)=>{
-        console.log(value)
+      checkAllowance().then((value)=>{ 
         setAllowance(value)
         if (allowance < minInv || allowance > maxInv) {
           setIsAmountValid(true)
         }
       })
     }
-    
   },[allowance, isAmountValid,isAuthenticated])
   const  makeInvestment= async ()=>{
     'Import MEHG wallet, Click here to copy contract address '
@@ -44,7 +41,7 @@ function PrivateSaleA() {
   }
   const approveInvestment = async ()=>{
      await approveAllowance(investment)
-     checkAllowance().then((value)=>{
+     checkAllowance().then((value)=>{ 
       setAllowance(value)
       if (allowance < minInv || allowance > maxInv) {
         setIsAmountValid(true)
@@ -71,19 +68,20 @@ function PrivateSaleA() {
         {/* details */}
         <div className='md:w-1/2 my-10'>
             <h3 className='text-2xl'>MEHG TOKEN SALE</h3>
-            <h2 className='text-3xl'>Private Sale Round 1</h2>
-            <p>Total Supply - 3,000,000 MEHG</p>
-            <p>Full Unlocking Period - 5 Months</p>
-            <p>TGE - 7%</p>
-            <p>Unlocking Schedule - (93%) 1st Month 5%, 2nd 8%, 3rd 10%, 4th 30%, 5th 40%.</p>
+            <h2 className='text-2xl md:text-3xl mb-3'>Private Sale Round 1</h2>
+            <div className="divider"></div> 
+            <p>- Total Supply - 3,000,000 MEHG</p>
+            <p>- Full Unlocking Period - 5 Months</p>
+            <p>- TGE - 7%</p>
+            <p>- Unlocking Schedule - (93%) 1st Month 5%, 2nd 8%, 3rd 10%, 4th 30%, 5th 40%.</p>
             <div className="divider"></div> 
             <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
                 <div className="stat"> 
                     <div className="stat-title">Price</div>
                     <div className="stat-value">1 MEHG = $0.06</div>
-                    <div className=" ">
-                    <Badge color="success">Min Purchase: 833.30 MEHG = $50</Badge>
-                    <Badge color="success">Max Purchase: 25,000 MEHG = $1,500</Badge> 
+                    <div className="flex flex-col gap-3 m-3">
+                    <Badge color="success p-4 ">Min Purchase: 833.30 MEHG = $50.00</Badge>
+                    <Badge color="success p-4  ">Max Purchase: 25,000 MEHG = $1,500</Badge> 
                     </div> 
                     
                 </div>  
@@ -102,8 +100,10 @@ function PrivateSaleA() {
               notify ?  <Notice type="success" message={trx} />: ""
             }
            
-
-            <div className='my-5 flex items-center justify-center'>  
+           {
+            isAuthenticated && 
+            <div>
+              <div className='my-5 flex items-center justify-center'>  
             { 
             
             (allowance < minInv) ?
@@ -129,6 +129,9 @@ function PrivateSaleA() {
                   
                 }
             </div>
+            </div>
+           }
+            
         </div>
 
     </div>

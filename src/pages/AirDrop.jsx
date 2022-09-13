@@ -9,7 +9,7 @@ import ConfirmEntry from './airdrop/ConfirmEntry'
 function AirDrop() {
     const {addressExist,getReferredAddresses} = useContext(AirdropContext)
     const {referredBy='0x0000000000000000000000000000000000000000'} = useParams() 
-    const {isAuthenticated,Moralis,user} = useMoralis() 
+    const {isAuthenticated,Moralis,user,enableWeb3} = useMoralis() 
     const [connectedUser, setConnectedUser] = useState(null)
     const [isRegistered, setIsRegistered] = useState(false)
     const [invites, setInvites]= useState(0)
@@ -20,28 +20,34 @@ function AirDrop() {
 
     
     useEffect(()=>{ 
-        if (Moralis.isWeb3Enabled && isAuthenticated) {
-            setConnectedUser(user.get('ethAddress'))
-            addressExist(connectedUser).then((value)=>{ 
-                console.log(value)
-                setIsRegistered(value)
-            }) 
-        } 
-        if (isAuthenticated) {
-            getReferredAddresses().then((value)=>{
-                console.log(value)
-                setInvites(value)
-                if (invites <=2) {
-                    setBigTotal(2)
-                }
-                if (invites > 10 && invites <=50) {
-                    setBigTotal(50)
-                }
-                if (invites > 50) {
-                    setBigTotal(100)
-                }  
-             })
-        }
+        enableWeb3().then(()=>{
+            if (Moralis.isWeb3Enabled && isAuthenticated) {
+                 
+                setConnectedUser(user.get('ethAddress'))
+                addressExist(user.get('ethAddress')).then((value)=>{ 
+                    console.log(value)
+                    setIsRegistered(value)
+                }) 
+            } 
+
+            if (isAuthenticated) {
+                getReferredAddresses().then((value)=>{
+                    console.log(value)
+                    setInvites(value)
+                    if (invites <=2) {
+                        setBigTotal(2)
+                    }
+                    if (invites > 10 && invites <=50) {
+                        setBigTotal(50)
+                    }
+                    if (invites > 50) {
+                        setBigTotal(100)
+                    }  
+                 })
+            }
+        })
+        
+       
         
     },[isAuthenticated,user,isRegistered])
 

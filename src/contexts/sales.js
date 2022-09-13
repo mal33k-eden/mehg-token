@@ -40,7 +40,6 @@ export const SaleProvider = ({children})=>{
             var res = await Moralis.executeFunction({
                 ...saleOptions,
                 functionName:'BuymehgToken',
-                
                 params:{
                     'payableAmount':amount,
                     "_amount":(amount/0.06).toFixed(0)

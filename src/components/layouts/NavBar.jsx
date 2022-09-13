@@ -1,17 +1,25 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'   
 import UserContext from '../../contexts/user'
 import logo from "../../assets/logo.png"
+import { useMoralis } from 'react-moralis'
 function NavBar({title}) {  
-  const {isAuthenticated,connect,disconnect}= useContext(UserContext)
+  const {isAuthenticated,connect,disconnect,accountChanged}= useContext(UserContext)
+  const {Moralis} = useMoralis()
+  useEffect(()=>{
+    Moralis.onAccountChanged(async (account)=>{
+      await accountChanged(account)
+    }) 
+              
+  },[])
   return (
  
   <div className="navbar shadow-lg bg-gradient-to-tr from-primary to-secondary">
     <div className="container mx-auto">
     <div className="navbar-start">
    
-      <Link to={'/'} className="btn btn-ghost normal-case text-xl w-1/3">
+      <Link to={'/'} className="btn btn-ghost normal-case text-xl md:w-1/3">
          <img src={logo} alt="MEHG TOKEN LOGO" className=' float-left' />
       </Link>
     </div>

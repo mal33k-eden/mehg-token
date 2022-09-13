@@ -1,16 +1,16 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
+import { toast } from "react-toastify";
 
 const UserContext = createContext()
 
 export const UserProvider = ({children})=>{
 
-    const { authenticate, isAuthenticated, logout,user,enableWeb3,web3} = useMoralis(); 
-    const { runContractFunction, error } =useWeb3Contract();
+    const { authenticate, isAuthenticated, logout,user,Moralis} = useMoralis(); 
     const connect = async ()=>{  
         try{
-            await authenticate()
-             
+            await authenticate() 
+            
         }catch(error){
             console.log(error)
         }
@@ -22,9 +22,14 @@ export const UserProvider = ({children})=>{
             console.log(error)
         }
     }
-
+    const accountChanged = async ()=>{
+        
+            await disconnect()
+            // toast.info('Address changed. Reconnect your wallet address.')
+        
+    }
     return (
-        <UserContext.Provider value={{user,isAuthenticated,fetch,disconnect,connect}}>
+        <UserContext.Provider value={{user,isAuthenticated,fetch,disconnect,connect, accountChanged}}>
             {children}
         </UserContext.Provider>
     )
