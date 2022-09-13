@@ -32,6 +32,7 @@ export const SaleProvider = ({children})=>{
         return res
     }
     const buyMEHG = async (amount)=>{
+        console.log(amount)
         var response = {
             success: false,
             message : null
@@ -41,8 +42,8 @@ export const SaleProvider = ({children})=>{
                 ...saleOptions,
                 functionName:'BuymehgToken',
                 params:{
-                    'payableAmount':amount,
-                    "_amount":(amount/0.06).toFixed(0)
+                    // 'payableAmount':amount,
+                    "_amount":amount
                 }
             })
             response.success= true
