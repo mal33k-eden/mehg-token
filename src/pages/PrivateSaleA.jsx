@@ -1,9 +1,11 @@
 import React, { useState,useEffect,useContext} from 'react'  
 import { Badge, Button,  } from 'react-daisyui'
 import { useMoralis } from 'react-moralis'
+import { toast } from 'react-toastify'
 import Notice from '../components/Notice' 
 import SaleContext from '../contexts/sales'
 import UserContext from '../contexts/user'
+import UTILS from '../utils'
 
 function PrivateSaleA() {
   const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext) 
@@ -34,6 +36,7 @@ function PrivateSaleA() {
    var res = await  buyMEHG(allowance)
    if (res.success){
     setTrx("Buy order placed successful. Add MEHG contract address to see tokens")
+    setAllowance(0)
    }else{
     setTrx(res.message)
    }
@@ -63,6 +66,10 @@ function PrivateSaleA() {
     }
   }
   
+  const copyAddressToClip = ()=>{
+    navigator.clipboard.writeText(UTILS.tokenAddress)
+    toast.info('MEHG TOKEN contract copied to clipboard')
+  }
   return (
     <div className='flex flex-col md:flex-row '>
         {/* details */}
@@ -91,6 +98,7 @@ function PrivateSaleA() {
         </div>
         {/* actions */}
         <div className='md:w-1/2 md:p-10'>
+            <Notice  type="warning" message={`MEHG TOKEN : ${UTILS.tokenAddress}`}  clickFunc={()=>copyAddressToClip()}/>
             <Notice  type="warning" message="All purchases will be made using BUSD BEP 20"/>
             <Notice type={"error"} message="Use a new wallet address, don’t use any wallet used in MEHG Airdrop, Seed Sales or Previous Privates Sales"/>
             {
@@ -123,7 +131,7 @@ function PrivateSaleA() {
             
             <div className='flex items-center justify-center'>
                 {
-                  (allowance >= 10) ? 
+                  (allowance >= minInv) ? 
                   <Button color='success' onClick={makeInvestment}>Buy MEHG For ${allowance}</Button> :
                   <Button className="btn btn-primary" onClick={approveInvestment} disabled={!isAmountValid}>Approve Allowance</Button>
                   
