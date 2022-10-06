@@ -6,6 +6,10 @@ import AirdropContext from '../contexts/airdrop'
 import AirdropClaim from './airdrop/AirdropClaim'
 import AirdropStats from './airdrop/AirdropStats'
 import ConfirmEntry from './airdrop/ConfirmEntry'
+import elite_1 from "../assets/1649668915457.png"
+import elite_2 from "../assets/1649664417576.png"
+import elite_3 from "../assets/1649674832304.png"
+
 function AirDrop() {
     const {addressExist,getReferredAddresses} = useContext(AirdropContext)
     const {referredBy='0x0000000000000000000000000000000000000000'} = useParams() 
@@ -67,24 +71,37 @@ function AirDrop() {
         <div className='mb-20'>
             <h3 className='text-4xl font-black mb-3 text-primary'>MEHG TOKEN</h3>
             <h2 className='text-3xl text-primary'>Airdrop Program</h2>
-            <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book
+            <p className='text-white'>
+            Meta Elite Hunger Games P2E Airdrop Program is designed to empower 
+            thousands of prospective MEHG gamers from around the globe, 
+            With a Robust Liquidity of 70% and 999 Years Extreme Liquidity 
+            Lock gives the project the MiDAS Touch for a promising future.
             </p>
+            <p className='text-white'>Earn upto $3,000 completing Position MEGA 1 to 3.</p>
             <div className="divider"></div> 
             <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
-                <div className="stat text-primary"> 
+                <div className="stat text-primary cursor-pointer"> 
+                    <div className='flex justify-start items-start'>
+                        <img src={elite_1} alt="meta-elite-1" className='w-[300px] hover:animate-bounce' />
+                    </div>
                     <div className="stat-title font-bold">Mega 1</div>
                     <div className="stat-value ">250 MEHG</div>
                     <div className="stat-desc">Referee 10 Members </div>
                 </div>
                 
-                <div className="stat text-primary">
+                <div className="stat text-primary cursor-pointer">
+                    <div className='flex justify-start items-start'>
+                        <img src={elite_2} alt="meta-elite-1" className='w-[300px] hover:animate-bounce ' />
+                    </div>
                     <div className="stat-title">Mega 2</div>
                     <div className="stat-value">12,500 MEHG</div>
                     <div className="stat-desc">Referee 50 Members</div>
                 </div>
                 
-                <div className="stat text-primary">
+                <div className="stat text-primary cursor-pointer">
+                    <div className='flex justify-start items-start'>
+                        <img src={elite_3} alt="meta-elite-1" className='w-[300px] hover:animate-bounce ' />
+                    </div>
                     <div className="stat-title">Mega 3</div>
                     <div className="stat-value">25,000 MEHG</div>
                     <div className="stat-desc">Referee 100 Members</div>
@@ -99,7 +116,7 @@ function AirDrop() {
             <div className='flex flex-col w-full '>
             {
                 (isRegistered)?
-                <div className='grid grid-cols-1 md:grid-cols-2 justify-items-center'>
+                <div className='grid grid-cols-1 md:grid-cols-2 md:justify-items-center'>
                     <AirdropStats connectedAddress={connectedUser} invites={invites}/>
                     <AirdropClaim invites={invites} bigTotal={bigTotal}/>
                 </div>

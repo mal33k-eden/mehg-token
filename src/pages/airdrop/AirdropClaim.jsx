@@ -60,7 +60,7 @@ function AirdropClaim({connectedUser, invites, bigTotal}) {
                     {(invites >UTILS.stage_1 && invites <=UTILS.stage_2) && <h4 className='my-5 text-primary'>Position: Mega 2 </h4>}
                     {(invites >UTILS.stage_2 ) && <h4 className='my-5 text-primary'>Position: Mega 3</h4>}
                 </div>
-                <RadialProgress color='warning' value={percent} size="10rem" thickness='0.4rem' >{percent}%</RadialProgress>
+                <RadialProgress className="text-success"  color='success' value={percent} size="10rem" thickness='0.4rem' >{percent}%</RadialProgress>
                 <h4 className='my-5'>{invites} Referral(s)</h4>
             </div>
             {

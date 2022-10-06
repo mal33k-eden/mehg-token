@@ -42,13 +42,13 @@ function ConfirmEntry({referredBy,connectedUser,checkRegistered}) {
     (!isAuthenticated)? <Notice type="info" message="Connect your wallet to have access your airdrop portal." />:
     <div className="card card-compact  w-auto bg-base-100 shadow-xl">
         <div className="card-body stat">
-            <h2 className="text-xl mb-2 font-bold pt-3">Welcome To MEHG Airdrop</h2>
-            <h4 className='text-lg'>Click the button below to reveal your task link and your special referral link.</h4>
+            <h2 className="text-xl mb-2 font-bold pt-3 ">Welcome To MEHG Airdrop</h2>
+            <h4 className='text-lg '>Click the button below to reveal your task link and your special referral link.</h4>
             
             {
                 (referredBy != 'null' && referredBy.toLowerCase()  != connectedUser) && 
-                <div>
-                    <h2 className='font-bold text-xl mt-6'>Referred By</h2>
+                <div className=''>
+                    <h2 className='font-bold text-xl mt-6 '>Referred By</h2>
                     <h3 className='text-lg'>Address: {referredBy}</h3>
                 </div>
             }

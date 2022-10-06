@@ -38,6 +38,7 @@ module.exports = {
         "dark": {
           ...require("daisyui/src/colors/themes")["[data-theme=dark]"],
           primary: "#D09821",
+          success: "#36D399",
           secondary: "#453643",
           fontFamily:{
             bankGothic: ["BankGothic","sans-serif"],

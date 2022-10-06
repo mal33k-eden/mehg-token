@@ -3,11 +3,11 @@ import { Badge, Button,  } from 'react-daisyui'
 import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
 import Notice from '../components/Notice' 
-import SaleContext from '../contexts/private_sales_1'
+import SaleContext from '../contexts/seed_sales'
 import UserContext from '../contexts/user'
 import UTILS from '../utils'
 
-function PrivateSaleA() {
+function SeedSale() {
   const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext) 
   const {disconnect,connect} = useContext(UserContext) 
   const {isAuthenticated, Moralis} = useMoralis()
@@ -55,7 +55,7 @@ function PrivateSaleA() {
   const handlePriceChange = (event)=>{
     var val = event.target.value
     setInvestment(val)
-    var tv = (val / 0.06).toFixed(1)
+    var tv = (val / 0.04).toFixed(1)
     setTokenValue(tv)
     if (allowance < minInv || allowance > maxInv) {
       if(val < minInv || val >maxInv ){
@@ -77,18 +77,18 @@ function PrivateSaleA() {
             <h3 className='text-2xl'>MEHG TOKEN SALE</h3>
             <h2 className='text-2xl md:text-3xl mb-3'>Private Sale Round 1</h2>
             <div className="divider"></div> 
-            <p>- Total Supply - 3,000,000 MEHG</p>
-            <p>- Full Unlocking Period - 5 Months</p>
-            <p>- TGE - 7%</p>
-            <p>- Unlocking Schedule - (93%) 1st Month 5%, 2nd 8%, 3rd 10%, 4th 30%, 5th 40%.</p>
+            <p>- Total Supply - 4,500,000 MEHG</p>
+            <p>- Full Unlocking Period - 6 Months</p>
+            <p>- TGE - 5%</p>
+            <p>- Unlocking Schedule - (95%) 1st Month 5%, 2nd 5%, 3rd 10%, 4th 15%, 5th 25%, 5th 35%.</p>
             <div className="divider"></div> 
             <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
                 <div className="stat"> 
                     <div className="stat-title">Price</div>
-                    <div className="stat-value">1 MEHG = $0.06</div>
+                    <div className="stat-value">1 MEHG = $0.04</div>
                     <div className="flex flex-col gap-3 m-3">
-                    <Badge color="success p-4 ">Min Purchase: 833.30 MEHG = $50.00</Badge>
-                    <Badge color="success p-4  ">Max Purchase: 25,000 MEHG = $1,500</Badge> 
+                    <Badge color="success p-4 ">Min Purchase: 50,000.00 MEHG = $2,000.00</Badge>
+                    <Badge color="success p-4  ">Max Purchase: 125,000 MEHG = $5,000</Badge> 
                     </div> 
                     
                 </div>  
@@ -124,7 +124,7 @@ function PrivateSaleA() {
                     <span className="label-text-alt"></span>
                     <span className="label-text-alt">= {tokenValue} MEHG</span>  </label>
               </div> :
-              <h4 className=' text-3xl font-black'> {(allowance / 0.06).toFixed(1)} MEHG</h4>
+              <h4 className=' text-3xl font-black'> {(allowance / 0.04).toFixed(1)} MEHG</h4>
             }
               
             </div>
@@ -146,4 +146,4 @@ function PrivateSaleA() {
   )
 }
 
-export default PrivateSaleA
+export default SeedSale

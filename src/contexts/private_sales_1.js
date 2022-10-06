@@ -11,7 +11,7 @@ export const SaleProvider = ({children})=>{
         abi: UTILS.busdAbi,
     }
     const saleOptions = {
-        contractAddress: UTILS.saleAddress, 
+        contractAddress: UTILS.saleAddress_1, 
         abi: UTILS.privateSaleAbi,
     }
     const approveAllowance = async (amount)=>{
@@ -22,7 +22,7 @@ export const SaleProvider = ({children})=>{
                 
                 params:{
                     '_value':Moralis.Units.ETH(amount),
-                    "_spender":UTILS.saleAddress
+                    "_spender":UTILS.saleAddress_1
                 }
             })
             
@@ -67,7 +67,7 @@ export const SaleProvider = ({children})=>{
                     
                     params:{
                         '_owner':user.get('ethAddress'),
-                        "_spender":UTILS.saleAddress
+                        "_spender":UTILS.saleAddress_1
                     }
                 })
                 console.log(a)
