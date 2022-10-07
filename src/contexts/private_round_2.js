@@ -2,8 +2,8 @@ import { createContext } from "react"
 import { useApiContract, useMoralis, useWeb3Contract } from "react-moralis";
 import UTILS from "../utils";
 
-const SaleContext = createContext()
-export const SaleProvider = ({children})=>{
+const RoundBContext = createContext()
+export const RoundBProvider = ({children})=>{
     const {user, Moralis,enableWeb3} = useMoralis();
      
     const busdOptions = {
@@ -14,7 +14,7 @@ export const SaleProvider = ({children})=>{
         contractAddress: UTILS.saleAddress_2, 
         abi: UTILS.privateSaleAbi,
     }
-    const approveAllowance = async (amount)=>{
+    const approveAllowance= async (amount)=>{
         try {
             var res = await Moralis.executeFunction({
                 ...busdOptions,
@@ -84,10 +84,10 @@ export const SaleProvider = ({children})=>{
     }
 
     return (
-        <SaleContext.Provider value={{approveAllowance,checkAllowance,buyMEHG}}>
+        <RoundBContext.Provider value={{approveAllowance,checkAllowance,buyMEHG}}>
             {children}
-        </SaleContext.Provider>
+        </RoundBContext.Provider>
     )
 }
 
-export default SaleContext
+export default RoundBContext

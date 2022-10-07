@@ -3,7 +3,7 @@ import { useApiContract, useMoralis, useWeb3Contract } from "react-moralis";
 import UTILS from "../utils";
 
 const SaleContext = createContext()
-export const SaleProvider = ({children})=>{
+export const RoundCProvider = ({children})=>{
     const {user, Moralis,enableWeb3} = useMoralis();
      
     const busdOptions = {

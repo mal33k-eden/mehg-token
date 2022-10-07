@@ -2,13 +2,13 @@ import React, { useState,useEffect,useContext} from 'react'
 import { Badge, Button,  } from 'react-daisyui'
 import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
-import Notice from '../components/Notice' 
-import SaleContext from '../contexts/private_sales_2'
+import Notice from '../components/Notice'  
+import RoundBContext from '../contexts/private_round_2'
 import UserContext from '../contexts/user'
 import UTILS from '../utils'
 
-function PrivateSaleB() {
-  const {approveAllowance,checkAllowance,buyMEHG} = useContext(SaleContext) 
+function PrivateSaleRound2() {
+  const {} = useContext(RoundBContext) 
   const {disconnect,connect} = useContext(UserContext) 
   const {isAuthenticated, Moralis} = useMoralis()
   const [investment, setInvestment] = useState(0)
@@ -23,33 +23,33 @@ function PrivateSaleB() {
   useEffect(()=>{
    
     if (isAuthenticated) {
-      checkAllowance().then((value)=>{ 
-        setAllowance(value)
-        if (allowance < minInv || allowance > maxInv) {
-          setIsAmountValid(true)
-        }
-      })
+      // checkAllowance().then((value)=>{ 
+      //   setAllowance(value)
+      //   if (allowance < minInv || allowance > maxInv) {
+      //     setIsAmountValid(true)
+      //   }
+      // })
     }
   },[allowance, isAmountValid,isAuthenticated])
   const  makeInvestment= async ()=>{
-    'Import MEHG wallet, Click here to copy contract address '
-   var res = await  buyMEHG(allowance)
-   if (res.success){
-    toast.success("Buy order placed successful. Add MEHG contract address to see tokens")
-    setAllowance(0)
-   }else{
-    setTrx(res.message)
-   }
-   setNotify(true)
+     
+  //  var res = await  buyMEHG(allowance)
+  //  if (res.success){
+  //   toast.success("Buy order placed successful. Add MEHG contract address to see tokens")
+  //   setAllowance(0)
+  //  }else{
+  //   setTrx(res.message)
+  //  }
+  //  setNotify(true)
   }
   const approveInvestment = async ()=>{
-     await approveAllowance(investment)
-     checkAllowance().then((value)=>{ 
-      setAllowance(value)
-      if (allowance < minInv || allowance > maxInv) {
-        setIsAmountValid(true)
-      }
-    })
+    //  await pvt2approveAllowance(investment)
+    //  checkAllowance().then((value)=>{ 
+    //   setAllowance(value)
+    //   if (allowance < minInv || allowance > maxInv) {
+    //     setIsAmountValid(true)
+    //   }
+    // })
   }
 
   const handlePriceChange = (event)=>{
@@ -146,4 +146,4 @@ function PrivateSaleB() {
   )
 }
 
-export default PrivateSaleB
+export default PrivateSaleRound2
