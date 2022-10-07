@@ -9,7 +9,16 @@ export const UserProvider = ({children})=>{
     const { authenticate, isAuthenticated, logout,user,Moralis} = useMoralis(); 
     const connect = async ()=>{  
         try{
-            await authenticate() 
+             await  authenticate({provider: 'walletConnect',
+              chainId:97,
+              mobileLinks: [
+                'rainbow',
+                'metamask',
+                'argent',
+                'trust',
+                'imtoken',
+                'pillar',
+              ],}) 
             
         }catch(error){
             console.log(error)
