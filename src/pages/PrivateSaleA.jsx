@@ -4,6 +4,7 @@ import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
 import Notice from '../components/Notice' 
 import SaleContext from '../contexts/private_sales_1'
+import elite_1 from "../assets/1649668915457.png"
 import UserContext from '../contexts/user'
 import UTILS from '../utils'
 
@@ -82,7 +83,9 @@ function PrivateSaleA() {
             <p>- TGE - 7%</p>
             <p>- Unlocking Schedule - (93%) 1st Month 5%, 2nd 8%, 3rd 10%, 4th 30%, 5th 40%.</p>
             <div className="divider"></div> 
-            <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
+            <div className='flex flex-col md:flex-row gap-2'>
+              <img src={elite_1} alt="meta-elite-1" className='border-2 border-primary rounded-full w-[300px] hover:animate-bounce object-fill' />
+              <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
                 <div className="stat"> 
                     <div className="stat-title">Price</div>
                     <div className="stat-value">1 MEHG = $0.06</div>
@@ -93,12 +96,14 @@ function PrivateSaleA() {
                     
                 </div>  
             </div>
+            </div>
+            
             
 
         </div>
         {/* actions */}
         <div className='md:w-1/2 md:p-10'>
-            <Notice  type="info" message={`Click to copy MEHG token contract  : ${UTILS.tokenAddress}`}  clickFunc={()=>copyAddressToClip()}/>
+            <Notice  type="info" message={`Click to copy MEHG token contract \n\n : ${UTILS.tokenAddress}`}  clickFunc={()=>copyAddressToClip()}/>
             <Notice  type="warning" message="All purchases will be made using BUSD BEP 20"/>
             <Notice type={"error"} message="Use a new wallet address, don’t use any wallet used in MEHG Airdrop, Seed Sales or Previous Privates Sales"/>
             {

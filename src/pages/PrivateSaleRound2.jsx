@@ -4,6 +4,7 @@ import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
 import Notice from '../components/Notice'  
 import RoundBContext from '../contexts/private_round_2'
+import elite_2 from "../assets/1649664417576.png"
 import UserContext from '../contexts/user'
 import UTILS from '../utils'
 
@@ -82,7 +83,9 @@ function PrivateSaleRound2() {
             <p>- TGE - 10%</p>
             <p>- Unlocking Schedule - (90%) 1st Month 5%, 2nd 10%, 3rd 10%, 4th 20%, 5th 25%, 5th 30%.</p>
             <div className="divider"></div> 
-            <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
+            <div className='flex flex-col md:flex-row gap-2'>
+              <img src={elite_2} alt="meta-elite-1" className='border-2 border-primary rounded-full w-[300px] hover:animate-bounce object-fill' />
+              <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
                 <div className="stat"> 
                     <div className="stat-title">Price</div>
                     <div className="stat-value">1 MEHG = $0.075</div>
@@ -93,6 +96,8 @@ function PrivateSaleRound2() {
                     
                 </div>  
             </div>
+            </div>
+            
             
 
         </div>

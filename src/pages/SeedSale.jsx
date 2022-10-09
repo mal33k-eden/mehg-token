@@ -3,6 +3,7 @@ import { Badge, Button,  } from 'react-daisyui'
 import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
 import Notice from '../components/Notice' 
+import elite_3 from "../assets/1649674832304.png"
 import SaleContext from '../contexts/seed_sales'
 import UserContext from '../contexts/user'
 import UTILS from '../utils'
@@ -82,7 +83,9 @@ function SeedSale() {
             <p>- TGE - 5%</p>
             <p>- Unlocking Schedule - (95%) 1st Month 5%, 2nd 5%, 3rd 10%, 4th 15%, 5th 25%, 5th 35%.</p>
             <div className="divider"></div> 
-            <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
+            <div className='flex flex-col md:flex-row gap-2'>
+              <img src={elite_3} alt="meta-elite-1" className='border-2 border-primary rounded-full w-[300px] hover:animate-bounce object-fill' />
+              <div className="stats stats-vertical sm:stats-horizontal shadow w-full">
                 <div className="stat"> 
                     <div className="stat-title">Price</div>
                     <div className="stat-value">1 MEHG = $0.04</div>
@@ -91,8 +94,10 @@ function SeedSale() {
                     <Badge color="success p-4  ">Max Purchase: 125,000 MEHG = $5,000</Badge> 
                     </div> 
                     
-                </div>  
+                    </div>  
+                </div>
             </div>
+            
             
 
         </div>
