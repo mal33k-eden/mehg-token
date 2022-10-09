@@ -5,8 +5,8 @@ import App from './App';
 import { MoralisProvider } from 'react-moralis';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const appId = "sx2UvKCsO9ni1MfCpBCIZpsYYqk8OVXKLR4yxrmF"
-const serverUrl="https://skxzl1aqb0h7.grandmoralis.com:2053/server"
+const appId = "ekcO0Q5ksIRRTfiOPCdZtnIVtQEyrhI7NFTXXHw4"
+const serverUrl="https://7hqll0gbwqbx.grandmoralis.com:2053/server"
 
 
 
