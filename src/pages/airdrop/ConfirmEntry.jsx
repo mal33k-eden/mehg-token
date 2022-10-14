@@ -5,11 +5,14 @@ import Notice from '../../components/Notice'
 import { useContext,useEffect } from 'react'
 import AirdropContext from '../../contexts/airdrop' 
 import { toast } from 'react-toastify'
+import UserContext from '../../contexts/user'
 
 function ConfirmEntry({referredBy,connectedUser,checkRegistered}) {
     const {isAuthenticated, user,Moralis,enableWeb3} = useMoralis()
     const {generateLink,whitelistReferredAddress} = useContext(AirdropContext)
+    const {formatAddress} = useContext(UserContext)
     const [isClicked, setIsClicked] = useState(false)
+    const [formatedRefferedBy, setFormatedRefferedBy] = useState('')
     const registerForAirdrop = async ()=>{
         setIsClicked(true) 
         let res = await whitelistReferredAddress(referredBy) 
@@ -35,13 +38,17 @@ function ConfirmEntry({referredBy,connectedUser,checkRegistered}) {
         }
         
     }
+    useEffect(()=>{
+        let newAdd = formatAddress(referredBy)
+        setFormatedRefferedBy(newAdd)
+    })
      
   return (
     
 
     (!isAuthenticated)? <Notice type="info" message="Connect your wallet to have access your airdrop portal." />:
     <div className="card card-compact  w-auto bg-base-100 shadow-xl">
-        <div className="card-body stat">
+        <div className="card-body">
             <h2 className="text-xl mb-2 font-bold pt-3 ">Welcome To MEHG Airdrop</h2>
             <h4 className='text-lg '>Click the button below to reveal your task link and your special referral link.</h4>
             
@@ -49,7 +56,7 @@ function ConfirmEntry({referredBy,connectedUser,checkRegistered}) {
                 (referredBy != 'null' && referredBy.toLowerCase()  != connectedUser) && 
                 <div className=''>
                     <h2 className='font-bold text-xl mt-6 '>Referred By</h2>
-                    <h3 className='text-lg'>Address: {referredBy}</h3>
+                    <h3 className='md:text-lg'>Address: {formatedRefferedBy}</h3>
                 </div>
             }
             {

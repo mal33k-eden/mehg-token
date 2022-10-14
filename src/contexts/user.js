@@ -6,13 +6,19 @@ const UserContext = createContext()
 
 export const UserProvider = ({children})=>{
 
-    const { authenticate, isAuthenticated, logout,user,Moralis} = useMoralis(); 
+    const { authenticate, isAuthenticated, logout,user,Moralis, authError} = useMoralis(); 
     const connect = async ()=>{  
         try{
-             await  authenticate() 
-            
+            await Moralis.enableWeb3()
+             await  authenticate({
+                // provider:'walletconnect',
+                signingMessage:"MEHG Token Auth",
+                
+             }) 
+             console.log(authError)
         }catch(error){
             console.log(error)
+            
         }
     }
     const disconnect = async ()=>{ 
@@ -28,8 +34,13 @@ export const UserProvider = ({children})=>{
             // toast.info('Address changed. Reconnect your wallet address.')
         
     }
+    const formatAddress = (address)=>{
+        var front = address.slice(0,4)
+        var back = address.slice(-4)
+        return front +'.....'+ back
+    }
     return (
-        <UserContext.Provider value={{user,isAuthenticated,fetch,disconnect,connect, accountChanged}}>
+        <UserContext.Provider value={{formatAddress,user,isAuthenticated,fetch,disconnect,connect, accountChanged}}>
             {children}
         </UserContext.Provider>
     )

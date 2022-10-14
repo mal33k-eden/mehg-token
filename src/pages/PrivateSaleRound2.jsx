@@ -10,7 +10,7 @@ import UTILS from '../utils'
 
 function PrivateSaleRound2() {
   const {} = useContext(RoundBContext) 
-  const {disconnect,connect} = useContext(UserContext) 
+  const {disconnect,connect,formatAddress} = useContext(UserContext) 
   const {isAuthenticated, Moralis} = useMoralis()
   const [investment, setInvestment] = useState(0)
   const [trx, setTrx] = useState("")
@@ -95,7 +95,7 @@ function PrivateSaleRound2() {
                     </div> 
                     
                 </div>  
-            </div>
+              </div>
             </div>
             
             
@@ -103,7 +103,7 @@ function PrivateSaleRound2() {
         </div>
         {/* actions */}
         <div className='md:w-1/2 md:p-10'>
-            <Notice  type="info" message={`Click to copy MEHG token contract  : ${UTILS.tokenAddress}`}  clickFunc={()=>copyAddressToClip()}/>
+            <Notice  type="info" message={`Click to copy MEHG token contract  : ${formatAddress(UTILS.tokenAddress)}`}  clickFunc={()=>copyAddressToClip()}/>
             <Notice  type="warning" message="All purchases will be made using BUSD BEP 20"/>
             <Notice type={"error"} message="Use a new wallet address, don’t use any wallet used in MEHG Airdrop, Seed Sales or Previous Privates Sales"/>
             {

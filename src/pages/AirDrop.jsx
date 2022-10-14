@@ -8,16 +8,16 @@ import AirdropStats from './airdrop/AirdropStats'
 import ConfirmEntry from './airdrop/ConfirmEntry'
 import elite_1 from "../assets/1649668915457.png"
 import elite_2 from "../assets/1649664417576.png"
-import elite_3 from "../assets/1649674832304.png"
+import elite_3 from "../assets/1649674832304.png" 
 
 function AirDrop() {
-    const {addressExist,getReferredAddresses} = useContext(AirdropContext)
+    const {addressExist,getReferredAddresses} = useContext(AirdropContext) 
     const {referredBy='0x0000000000000000000000000000000000000000'} = useParams() 
     const {isAuthenticated,Moralis,user,enableWeb3} = useMoralis() 
     const [connectedUser, setConnectedUser] = useState(null)
     const [isRegistered, setIsRegistered] = useState(false)
     const [invites, setInvites]= useState(0)
-    const [bigTotal, setBigTotal]= useState(2)
+    const [bigTotal, setBigTotal]= useState(2) 
     //TODO- check if user is authenticated
     //TODO- check to see if user has created a referral link
     //TODO- get number of referrals from blockchain

@@ -12,6 +12,7 @@ const UTILS ={
     stage_1:2,
     stage_2:50,
     stage_3:100,
+    
 }
 
 export default UTILS

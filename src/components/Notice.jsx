@@ -18,7 +18,7 @@ function Notice({type, message, clickFunc}) {
                      
                 })()
             }
-           <span className='text-xs md:text-lg'>{message}</span>
+           <span className='text-lg'>{message}</span>
         </div>
     </div>
   )

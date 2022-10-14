@@ -94,6 +94,7 @@ export const AirdropProvider = ({children})=>{
         }
         return 0 
     }
+    
     return (
         <AirdropContext.Provider value={{generateLink,addressExist,getAirdropDetails,
             whitelistReferredAddress,getReferredAddresses
