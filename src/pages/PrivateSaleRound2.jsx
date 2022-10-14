@@ -7,9 +7,10 @@ import RoundBContext from '../contexts/private_round_2'
 import elite_2 from "../assets/1649664417576.png"
 import UserContext from '../contexts/user'
 import UTILS from '../utils'
+import AfterAllowance from '../components/AfterAllowance'
 
 function PrivateSaleRound2() {
-  const {} = useContext(RoundBContext) 
+  const {approveAllowance,checkAllowance,buyMEHG,cancelAllowance} = useContext(RoundBContext) 
   const {disconnect,connect,formatAddress} = useContext(UserContext) 
   const {isAuthenticated, Moralis} = useMoralis()
   const [investment, setInvestment] = useState(0)
@@ -23,47 +24,66 @@ function PrivateSaleRound2() {
    
   useEffect(()=>{
    
-    if (isAuthenticated) {
-      // checkAllowance().then((value)=>{ 
-      //   setAllowance(value)
-      //   if (allowance < minInv || allowance > maxInv) {
-      //     setIsAmountValid(true)
-      //   }
-      // })
-    }
-  },[allowance, isAmountValid,isAuthenticated])
+    if (isAuthenticated) { 
+      checkAllowance().then((value)=>{ 
+        setAllowance(value) 
+        validateAllowance(allowance)
+        
+      })
+    } 
+  },[])
   const  makeInvestment= async ()=>{
-     
-  //  var res = await  buyMEHG(allowance)
-  //  if (res.success){
-  //   toast.success("Buy order placed successful. Add MEHG contract address to see tokens")
-  //   setAllowance(0)
-  //  }else{
-  //   setTrx(res.message)
-  //  }
-  //  setNotify(true)
+    'Import MEHG wallet, Click here to copy contract address '
+   var res = await  buyMEHG(allowance)
+   console.log(res)
+   if (res.success){
+    toast.success("Buy order placed successful. Add MEHG contract address to see tokens")
+    setAllowance(0)
+   }else{
+    toast.error(res.message)
+    setTrx(res.message)
+   }
+   setNotify(true)
   }
   const approveInvestment = async ()=>{
-    //  await pvt2approveAllowance(investment)
-    //  checkAllowance().then((value)=>{ 
-    //   setAllowance(value)
-    //   if (allowance < minInv || allowance > maxInv) {
-    //     setIsAmountValid(true)
-    //   }
-    // })
+    console.log(investment)
+    var res =  await approveAllowance(investment) 
+
+    if(res){ 
+      await checkAllowance()
+      
+      if (investment >= minInv || investment <= maxInv) {
+        setAllowance(investment) 
+        setIsAmountValid(true) 
+        toast.success("Allowance Created")
+      }else{
+        toast.error("Error creating allowance")
+      }
+    }
   }
 
+  const validateAllowance = (value)=>{
+    if(value < minInv || value >maxInv ){ 
+      setIsAmountValid(false)
+    }else{
+      setIsAmountValid(true)
+    }
+  }
   const handlePriceChange = (event)=>{
-    var val = event.target.value
+    var val = event.target.value 
     setInvestment(val)
     var tv = (val / 0.075).toFixed(1)
     setTokenValue(tv)
-    if (allowance < minInv || allowance > maxInv) {
-      if(val < minInv || val >maxInv ){
-        setIsAmountValid(false)
-      }else{
-        setIsAmountValid(true)
-      } 
+    validateAllowance(val) 
+  }
+
+  const makeCancel = async ()=>{
+    let res = await cancelAllowance()
+    if(res){
+      toast.success("Allowance cancelled successfully")
+      setAllowance(0)
+    }else{
+      toast.error("Error ocurred while cancelling allowance")
     }
   }
   
@@ -76,12 +96,10 @@ function PrivateSaleRound2() {
         {/* details */}
         <div className='md:w-1/2 my-10'>
             <h3 className='text-2xl'>MEHG TOKEN SALE</h3>
-            <h2 className='text-2xl md:text-3xl mb-3'>Private Sale Round 1</h2>
+            <h2 className='text-2xl md:text-3xl mb-3'>Private Sale Round 2</h2>
             <div className="divider"></div> 
             <p>- Total Supply - 3,500,000 MEHG</p>
-            <p>- Full Unlocking Period - 5 Months</p>
-            <p>- TGE - 10%</p>
-            <p>- Unlocking Schedule - (90%) 1st Month 5%, 2nd 10%, 3rd 10%, 4th 20%, 5th 25%, 5th 30%.</p>
+            <p>- 70% Liquidity lock: Full liquidity Lock Period 999 years.</p>
             <div className="divider"></div> 
             <div className='flex flex-col md:flex-row gap-2'>
               <img src={elite_2} alt="meta-elite-1" className='border-2 border-primary rounded-full w-[300px] hover:animate-bounce object-fill' />
@@ -137,7 +155,7 @@ function PrivateSaleRound2() {
             <div className='flex items-center justify-center'>
                 {
                   (allowance >= minInv) ? 
-                  <Button color='success' onClick={makeInvestment}>Buy MEHG For ${allowance}</Button> :
+                  <AfterAllowance allowance={allowance} investFunc={makeInvestment} cancelAllowance={makeCancel}/> :
                   <Button className="btn btn-primary" onClick={approveInvestment} disabled={!isAmountValid}>Approve Allowance</Button>
                   
                 }

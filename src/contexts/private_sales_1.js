@@ -1,10 +1,10 @@
 import { createContext } from "react"
-import { useApiContract, useMoralis, useWeb3Contract } from "react-moralis";
+import { useApiContract, useMoralis, useWeb3Contract, } from "react-moralis";
 import UTILS from "../utils";
 
 const SaleContext = createContext()
 export const SaleProvider = ({children})=>{
-    const {user, Moralis,enableWeb3} = useMoralis();
+    const {user, Moralis,enableWeb3, error} = useMoralis();
      
     const busdOptions = {
         contractAddress: UTILS.busdAddress, 
@@ -25,14 +25,14 @@ export const SaleProvider = ({children})=>{
                     "_spender":UTILS.saleAddress_1
                 }
             })
-            
-        } catch (error) {
+            return true
+        } catch (err) {
+            console.log(err)
             console.log(error)
         }
-        return res
+        return false
     }
-    const buyMEHG = async (amount)=>{
-        console.log(amount)
+    const buyMEHG = async (amount)=>{ 
         var response = {
             success: false,
             message : null
@@ -56,9 +56,11 @@ export const SaleProvider = ({children})=>{
         return response
     }
     
-    const checkAllowance = async ()=>{
+    const checkAllowance = async ()=>{ 
         await enableWeb3()
+        
         if (Moralis.isWeb3Enabled) {
+            var owner = await user.get('ethAddress')
             var amount = 0
             try {
                 var a = await Moralis.executeFunction({
@@ -66,14 +68,13 @@ export const SaleProvider = ({children})=>{
                     functionName:'allowance',
                     
                     params:{
-                        '_owner':user.get('ethAddress'),
+                        '_owner':owner,
                         "_spender":UTILS.saleAddress_1
                     }
-                })
-                console.log(a)
+                }) 
                 amount = Moralis.Units.FromWei(a) 
-                return amount
-            } catch (error) {
+                return parseInt(amount)
+            } catch (err) {
                 console.log(error)
             }
 
@@ -83,8 +84,28 @@ export const SaleProvider = ({children})=>{
         return amount
     }
 
+    const cancelAllowance = async ()=>{
+        try {
+            var res = await Moralis.executeFunction({
+                ...busdOptions,
+                functionName:'approve',
+                
+                params:{
+                    '_value':Moralis.Units.ETH(0),
+                    "_spender":UTILS.saleAddress_1
+                }
+            })
+            return true
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+        return false
+    }
+
     return (
-        <SaleContext.Provider value={{approveAllowance,checkAllowance,buyMEHG}}>
+        <SaleContext.Provider value={{cancelAllowance, approveAllowance,checkAllowance,buyMEHG}}>
             {children}
         </SaleContext.Provider>
     )

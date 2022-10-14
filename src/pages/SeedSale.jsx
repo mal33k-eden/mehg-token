@@ -79,9 +79,7 @@ function SeedSale() {
             <h2 className='text-2xl md:text-3xl mb-3'>Private Sale Round 1</h2>
             <div className="divider"></div> 
             <p>- Total Supply - 4,500,000 MEHG</p>
-            <p>- Full Unlocking Period - 6 Months</p>
-            <p>- TGE - 5%</p>
-            <p>- Unlocking Schedule - (95%) 1st Month 5%, 2nd 5%, 3rd 10%, 4th 15%, 5th 25%, 5th 35%.</p>
+            <p>- 70% Liquidity lock: Full liquidity Lock Period 999 years.</p>
             <div className="divider"></div> 
             <div className='flex flex-col md:flex-row gap-2'>
               <img src={elite_3} alt="meta-elite-1" className='border-2 border-primary rounded-full w-[300px] hover:animate-bounce object-fill' />

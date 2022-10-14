@@ -14,7 +14,7 @@ export const RoundBProvider = ({children})=>{
         contractAddress: UTILS.saleAddress_2, 
         abi: UTILS.privateSaleAbi,
     }
-    const approveAllowance= async (amount)=>{
+    const approveAllowance = async (amount)=>{
         try {
             var res = await Moralis.executeFunction({
                 ...busdOptions,
@@ -22,14 +22,14 @@ export const RoundBProvider = ({children})=>{
                 
                 params:{
                     '_value':Moralis.Units.ETH(amount),
-                    "_spender":UTILS.saleAddress_2
+                    "_spender":UTILS.saleAddress_1
                 }
             })
-            
-        } catch (error) {
-            console.log(error)
+            return true
+        } catch (err) {
+            console.log(err) 
         }
-        return res
+        return false
     }
     const buyMEHG = async (amount)=>{
         console.log(amount)
@@ -54,11 +54,12 @@ export const RoundBProvider = ({children})=>{
             return response
         }
         return response
-    }
-    
-    const checkAllowance = async ()=>{
+    } 
+    const checkAllowance = async ()=>{ 
         await enableWeb3()
+        
         if (Moralis.isWeb3Enabled) {
+            var owner = await user.get('ethAddress')
             var amount = 0
             try {
                 var a = await Moralis.executeFunction({
@@ -66,15 +67,14 @@ export const RoundBProvider = ({children})=>{
                     functionName:'allowance',
                     
                     params:{
-                        '_owner':user.get('ethAddress'),
+                        '_owner':owner,
                         "_spender":UTILS.saleAddress_2
                     }
-                })
-                console.log(a)
+                }) 
                 amount = Moralis.Units.FromWei(a) 
-                return amount
-            } catch (error) {
-                console.log(error)
+                return parseInt(amount)
+            } catch (err) {
+                console.log(err)
             }
 
         } 
@@ -83,8 +83,30 @@ export const RoundBProvider = ({children})=>{
         return amount
     }
 
+    const cancelAllowance = async ()=>{
+        try {
+            var res = await Moralis.executeFunction({
+                ...busdOptions,
+                functionName:'approve',
+                
+                params:{
+                    '_value':Moralis.Units.ETH(0),
+                    "_spender":UTILS.saleAddress_2
+                }
+            })
+            return true
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+        return false
+    }
+
+
+
     return (
-        <RoundBContext.Provider value={{approveAllowance,checkAllowance,buyMEHG}}>
+        <RoundBContext.Provider value={{cancelAllowance, approveAllowance,checkAllowance,buyMEHG}}>
             {children}
         </RoundBContext.Provider>
     )
