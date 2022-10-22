@@ -3,10 +3,12 @@ import PropTypes from "prop-types"
 import AirdropContext from '../../contexts/airdrop' 
 import { useMoralis } from 'react-moralis'
 import { toast } from 'react-toastify'
+import UserContext from '../../contexts/user'
 
 function AirdropStats({connectedAddress, invites}) {
     const {user,isAuthenticated} = useMoralis()
     const {getAirdropDetails, getReferredAddresses} = useContext(AirdropContext)
+    const {formatAddress} = useContext(UserContext)
     const [airdropDetails, setAirdropDetails] = useState({address:null, invitedBy:null})  
     useEffect(()=>{
        
@@ -41,7 +43,7 @@ function AirdropStats({connectedAddress, invites}) {
         <div className="card card-compact  bg-base-100 shadow-xl">
             <div className="card-body stat ">
                 <h2 className="stat-title text-primary">Invited By</h2>
-                <p className='text-center md:text-start overflow-auto'>{airdropDetails.invitedBy}</p>
+                <p className='md:text-start overflow-auto'>{formatAddress(airdropDetails.invitedBy)}</p>
                 <div className="card-actions md:justify-end">
                 <div className="badge badge-accent cursor-pointer">Confirmed</div>
                 </div>

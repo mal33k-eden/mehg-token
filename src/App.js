@@ -15,6 +15,7 @@ import AirDrop from './pages/AirDrop';
 import PrivateSaleA from './pages/PrivateSaleA';
 import PrivateSaleRound2 from './pages/PrivateSaleRound2';
 import SeedSale from './pages/SeedSale';
+import UploadAirdropList from './pages/admin/UploadAirdropList';
 
 function App() {
   return (
@@ -36,10 +37,9 @@ function App() {
                 <Route path='/sale/private/1' element={<PrivateSaleA/>}/> 
                 <Route path='/sale/private/2' element={<PrivateSaleRound2/>}/> 
                 <Route path='/sale/seed' element={<SeedSale/>}/> 
-                
-                  <Route path='/admin/airdrop' element={<AdminAirdrop/>}/> 
-                  <Route path='/admin/sale' element={<AdminSales/>}/> 
-                
+                <Route path='/admin/airdrop' element={<AdminAirdrop/>}/>
+                <Route path='/admin/upload-airdrop-list' element={<UploadAirdropList/>}/> 
+                <Route path='/admin/sale' element={<AdminSales/>}/> 
                 {/* <Route path='*' element={<PageNotFound/>}/> */}
               </Routes>
               <ToastContainer/>

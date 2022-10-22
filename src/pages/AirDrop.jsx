@@ -11,7 +11,7 @@ import elite_2 from "../assets/1649664417576.png"
 import elite_3 from "../assets/1649674832304.png" 
 
 function AirDrop() {
-    const {addressExist,getReferredAddresses} = useContext(AirdropContext) 
+    const {addressExist,getReferredAddresses,airdropFile} = useContext(AirdropContext) 
     const {referredBy='0x0000000000000000000000000000000000000000'} = useParams() 
     const {isAuthenticated,Moralis,user,enableWeb3} = useMoralis() 
     const [connectedUser, setConnectedUser] = useState(null)
@@ -23,7 +23,7 @@ function AirDrop() {
     //TODO- get number of referrals from blockchain
 
     
-    useEffect(()=>{ 
+    useEffect(()=>{  
         enableWeb3().then(()=>{
             if (Moralis.isWeb3Enabled && isAuthenticated) {
                  

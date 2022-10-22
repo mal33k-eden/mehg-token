@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { toast } from "react-toastify";
+
 import client from "../sanity";
 import UTILS from "../utils";
 
@@ -8,10 +9,12 @@ const AirdropContext = createContext()
 
 export const AirdropProvider = ({children})=>{
     const {isAuthenticated,Moralis,user,enableWeb3} = useMoralis()
-    const { data,runContractFunction, error } =useWeb3Contract();   
+    const { data,runContractFunction, error } =useWeb3Contract();
+    const [airdropFile, setAirdropFile] = useState([])
+
     
-    const addressExist = async (address) => {
-        console.log(address)
+    
+    const addressExist = async (address) => { 
           const params = {
           address:address,
         }; 
@@ -19,9 +22,9 @@ export const AirdropProvider = ({children})=>{
         let records = await client.fetch(query, params);
         if (records.length > 0 ) {
             return true
-        }
+        } 
         return false
-      };
+    };
     const getAirdropDetails = async (address) => {
       const params = {
         address:address,
@@ -94,6 +97,8 @@ export const AirdropProvider = ({children})=>{
         }
         return 0 
     }
+
+    
     
     return (
         <AirdropContext.Provider value={{generateLink,addressExist,getAirdropDetails,
