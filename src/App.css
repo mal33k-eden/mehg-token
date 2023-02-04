@@ -1,0 +1,26 @@
+.text-primary {
+  color: "#d09821";
+}
+.text-secondary {
+  color: "#453643";
+}
+.text-dark {
+  color: "#36D399";
+}
+.bg-primary {
+  background-color: "#d09821";
+  color: "white";
+}
+.bg-secondary {
+  background-color: "#453643";
+  color: "white";
+}
+.bg-dark {
+  background-color: "#36D399";
+  color: "white";
+}
+
+.nav-bar-bg {
+  background: rgb(69, 54, 67);
+  background: linear-gradient(180deg, rgba(69, 54, 67, 1) 0%, rgba(208, 152, 33, 1) 100%);
+}
