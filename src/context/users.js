@@ -63,7 +63,6 @@ export const InvestorProvider = ({ children }) => {
 
   async function connectWallet() {
     const provider = await web3Modal.connect();
-
     addListeners(provider);
     const ethersProvider = new providers.Web3Provider(provider);
     setWeb3Pvdr(ethersProvider);
